@@ -1,0 +1,18 @@
+macro example {
+#here is how you could use this in your code.
+#example arguement_zero <arguement one Multi-line using brackets> hi arg_3
+
+
+say $$0
+say $$0
+say $$0
+say $$1
+say $$1
+say $$1
+say $$2
+say $$2
+say $$3
+
+
+}
+

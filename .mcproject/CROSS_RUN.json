@@ -1,0 +1,31 @@
+[
+  [
+    "lastUpdate",
+    "Fri Aug 26 2022 16:03:32 GMT-0700 (Pacific Daylight Time)"
+  ],
+  [
+    "INTERNAL/VIRTUAL_FILE_SYSTEM",
+    {
+      "src\\macros\\example.mcm": {},
+      "src\\template.mc": {
+        "data\\minecraft\\tags\\functions\\load.json": 2240013676,
+        "data\\minecraft\\tags\\functions\\tick.json": 1645372991,
+        "data\\template\\functions\\load.mcfunction": 2951981700,
+        "data\\template\\functions\\tick.mcfunction": 2944177099,
+        "data\\template\\functions\\radiate.mcfunction": 2256730838,
+        "data\\template\\functions\\visceral.mcfunction": 3072697951,
+        "data\\template\\functions\\hemorrhage.mcfunction": 38851100,
+        "data\\template\\functions\\__generated__\\block\\0.mcfunction": 407179043,
+        "data\\template\\functions\\hem_sound.mcfunction": 4035677775,
+        "data\\template\\functions\\hem_particle.mcfunction": 1173756534,
+        "data\\template\\functions\\__generated__\\block\\1.mcfunction": 1171589891,
+        "data\\template\\functions\\hem_bleeding.mcfunction": 587249440,
+        "data\\template\\functions\\cruiser.mcfunction": 4053384408,
+        "data\\template\\functions\\explode.mcfunction": 976116749,
+        "data\\template\\functions\\raycast.mcfunction": 2561906441,
+        "data\\template\\functions\\raycast2.mcfunction": 2440305535
+      },
+      "src\\macros": {}
+    }
+  ]
+]
