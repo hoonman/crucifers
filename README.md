@@ -1,6 +1,10 @@
 # Crucifers
 
-## SHAKAL
+## Shakal
+Desc: Heletha's blood forged into a sword. Its reeking smell is a reminder of the slaughter that the blade is responsible for.
+[x] Hemorrhage: Enemies bleed uncontrollably upon hitting them.
+[x] Visceral Strike: Release a violent strike in the form of a black wave.
+[] Salvage: 
 
 
 resources used
