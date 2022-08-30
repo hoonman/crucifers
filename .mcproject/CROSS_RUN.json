@@ -1,7 +1,7 @@
 [
   [
     "lastUpdate",
-    "Fri Aug 26 2022 16:03:32 GMT-0700 (Pacific Daylight Time)"
+    "Mon Aug 29 2022 13:58:35 GMT-0700 (Pacific Daylight Time)"
   ],
   [
     "INTERNAL/VIRTUAL_FILE_SYSTEM",
@@ -10,10 +10,14 @@
       "src\\template.mc": {
         "data\\minecraft\\tags\\functions\\load.json": 2240013676,
         "data\\minecraft\\tags\\functions\\tick.json": 1645372991,
-        "data\\template\\functions\\load.mcfunction": 2951981700,
-        "data\\template\\functions\\tick.mcfunction": 2944177099,
-        "data\\template\\functions\\radiate.mcfunction": 2256730838,
-        "data\\template\\functions\\visceral.mcfunction": 3072697951,
+        "data\\template\\functions\\load.mcfunction": 2167173692,
+        "data\\template\\functions\\tick.mcfunction": 3137628600,
+        "data\\template\\functions\\getshakal.mcfunction": 3616572987,
+        "data\\template\\functions\\radiate.mcfunction": 404307534,
+        "data\\template\\functions\\visceral2.mcfunction": 2689392931,
+        "data\\template\\functions\\finandtag.mcfunction": 3833069054,
+        "data\\template\\functions\\visceral4.mcfunction": 2864621328,
+        "data\\template\\functions\\timer.mcfunction": 537572252,
         "data\\template\\functions\\hemorrhage.mcfunction": 38851100,
         "data\\template\\functions\\__generated__\\block\\0.mcfunction": 407179043,
         "data\\template\\functions\\hem_sound.mcfunction": 4035677775,
