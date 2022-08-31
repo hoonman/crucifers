@@ -8,3 +8,4 @@ execute as @e[tag=!user,distance=..7] run effect give @s wither 10 7 true
 execute as @e[tag=!user,distance=..7] run effect give @s nausea 10 3 true
 execute as @e[tag=!user,distance=..7] run effect give @s poison 10 7 false
 tag @s remove user
+execute as @e[scores={xyneth.radiate=2..}] run scoreboard players reset @s

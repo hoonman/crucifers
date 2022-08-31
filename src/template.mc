@@ -6,6 +6,7 @@ function load{
     execute as @a run say reloaded!
     scoreboard objectives add timer dummy
     scoreboard objectives add timer2 dummy
+    scoreboard objectives add gravity dummy
 
     scoreboard objectives add raycast.use minecraft.used:minecraft.carrot_on_a_stick
     scoreboard objectives add sneak minecraft.custom:minecraft.sneak_time
@@ -16,27 +17,76 @@ function load{
     scoreboard objectives add shakal.hold minecraft.used:minecraft.carrot_on_a_stick
 
     scoreboard objectives add xyneth.radiate minecraft.used:minecraft.carrot_on_a_stick
-
-    
-
-
+    team add scrutinized 
+    team modify scrutinized color dark_red
 }
 
 function tick{
+    # execute as @a[scores={raycast.use=1..,sneak=1..},nbt={SelectedItem:{id:"minecraft:carrot_on_a_stick",tag:{CustomModelData:2002999}}}] at @s anchored eyes run function template:cruiser
+    # execute as @a[scores={raycast.use=1..},tag=!sneaking,nbt={SelectedItem:{id:"minecraft:carrot_on_a_stick",tag:{CustomModelData:2002999}}}] at @s anchored eyes run function template:raycast
     
-    #execute as @a run function template:timer
-    execute as @a[scores={raycast.use=1..,sneak=1..},nbt={SelectedItem:{id:"minecraft:carrot_on_a_stick",tag:{CustomModelData:2002999}}}] at @s anchored eyes run function template:cruiser
-    execute as @a[scores={raycast.use=1..},tag=!sneaking,nbt={SelectedItem:{id:"minecraft:carrot_on_a_stick",tag:{CustomModelData:2002999}}}] at @s anchored eyes run function template:raycast
-    execute as @a[scores={sneak=1..}] run scoreboard players set @s sneak 0
 
     execute as @a[scores={shakal.hemorrhage=1..},nbt={SelectedItem:{id:"minecraft:carrot_on_a_stick",tag:{CustomModelData:2002001}}}] at @s run function template:hemorrhage
-    execute as @a[scores={shakal.visceral=1..},nbt={SelectedItem:{id:"minecraft:carrot_on_a_stick",tag:{CustomModelData:2002001}}}] at @s anchored eyes positioned ~ ~-0.5 ~ run function template:visceral4
+    execute as @a[scores={shakal.visceral=1..,sneak=1..},nbt={SelectedItem:{id:"minecraft:carrot_on_a_stick",tag:{CustomModelData:2002001}}}] at @s anchored eyes positioned ~ ~-0.5 ~ run function template:exsan
+    execute as @a[scores={shakal.visceral=1..},tag=!sneaking,nbt={SelectedItem:{id:"minecraft:carrot_on_a_stick",tag:{CustomModelData:2002001}}}] at @s anchored eyes positioned ~ ~-0.5 ~ run function template:visceral4
+
     execute as @a[scores={shakal.clicked=1..},nbt={SelectedItem:{id:"minecraft:carrot_on_a_stick",tag:{CustomModelData:2002001}}}] at @s anchored eyes positioned ~ ~-0.5 ~ run function template:timer
-    execute as @a[scores={shakal.hold=1..},nbt={SelectedItem:{id:"minecraft:carrot_on_a_stick",tag:{CustomModelData:2002001}}}] at @s run function template:shakalhold
+    execute as @a[nbt=!{Inventory:[{id:"minecraft:carrot_on_a_stick",tag:{CustomModelData:2002001}}]}] run function template:scrutinize
+    execute as @a[scores={sneak=1..}] run scoreboard players set @s sneak 0
 
     execute as @a[scores={xyneth.radiate=1..},nbt={SelectedItem:{id:"minecraft:carrot_on_a_stick",tag:{CustomModelData:2002002}}}] at @s run function template:radiate
     execute at @e[type=item,nbt={Item:{id:"minecraft:netherite_sword",Count:1b}}] if entity @e[type=item,nbt={Item:{id:"minecraft:netherite_ingot",Count:8b}},distance=..1] run function template:getshakal
 
+}
+
+function exsan{
+    execute as @s run tag @s add sneaking
+    say exsanguinate
+
+    playsound minecraft:entity.wither.death ambient @s ~ ~ ~ 50 0.9
+    playsound minecraft:block.lava.pop ambient @s ~ ~ ~ 50 0.3
+    execute as @s run tag @s remove sneaking
+    scoreboard players set @s sneak 0
+    scoreboard players reset @e
+}
+
+function scrutinize{
+    say scrutinize
+    #execute if entity @e[team=scrutinized] as @e[team=scrutinized] run say second time.. what to do?
+    execute as @s run tag @s add user
+    execute as @e[tag=!user,type=!item,type=!item_frame] run function template:scrutinize_effect
+    execute as @e[type=item] run data modify entity @s PickupDelay set value 0
+    execute as @s run team leave @s
+}
+function scrutinize_effect{
+    playsound minecraft:entity.wither.spawn ambient @a ~ ~ ~ 10 0
+    execute as @s run team join scrutinized @s
+    #execute as @s run data modify entity @s NoAI set value 1b
+    execute as @s run data modify entity @s Rotation[1] set value 180f
+    execute as @s run data modify entity @s NoGravity set value 1b
+    execute as @s run data remove entity @s HandItems[0]
+    execute as @s run tag @s add hurt
+    execute as @s run scoreboard players set @s shakal.hemorrhage 0
+    execute as @s run function template:hem_bleeding
+    execute run schedule function template:removegravity 8.0s append
+
+    execute as @e[tag=hurt] if entity @e[scores={shakal.hemorrhage=8..}] run tag @s remove hurt
+
+    execute as @s run effect give @s blindness 8 8
+    execute as @s run effect give @s glowing 8 8
+    execute as @s run effect give @s hunger 8 8
+    execute as @s run effect give @s levitation 1 0
+    execute as @s run effect give @s mining_fatigue 8 8
+    execute as @s run effect give @s night_vision 8 8
+    execute as @s run effect give @s nausea 8 8
+    execute as @s run effect give @s slow_falling 8 8
+    execute as @s run effect give @s slowness 8 8
+    execute as @s run effect give @s unluck 8 8
+    execute as @s run effect give @s weakness 8 8
+}
+
+function removegravity{
+    execute as @e[team=scrutinized] run data modify entity @s NoGravity set value 0b
 }
 
 function getshakal{
@@ -60,38 +110,7 @@ function radiate{
     #playsound entity.slime.attack ambient @s ~ ~ ~ 
 
     tag @s remove user
-    
-    
-}
-
-function visceral2{
-    say visceral v2
-    kill @e[tag=fin]
-    tag @s add user
-
-    scoreboard players add @s timer 1
-    execute if entity @s[scores={timer=20}] run tag @s add after
-    execute if entity @s[scores={timer=..20}] run tag @s remove after
-    execute as @s at @s run summon armor_stand ^ ^ ^1.8 {Tags:["fin"],NoGravity:1}
-    execute as @s at @s if entity @s[scores={timer=20}] run summon armor_stand ^ ^ ^3.3 {Tags:["fin"],NoGravity:1}
-
-    execute as @e[tag=fin] at @s rotated as @a[tag=user] run tp @s ~ ~ ~ ~ ~
-    execute as @s run function template:finandtag
-
-    playsound entity.wither.shoot ambient @s ~ ~ ~ 50 0
-
-   # scoreboard players set @s shakal.visceral 0
-
-   #separate tags to delinate the slash and the timer so while the timer runs continuously, we need the slash to happen only when we right click.
-    execute if entity @s[tag=after] run scoreboard players set @s shakal.visceral 0
-    tag @s remove user
-}
-
-
-function finandtag{
-    execute as @e[tag=fin] at @s facing ^1 ^ ^ positioned ^-0.7 ^ ^ run function template:shakal_fin
-    execute as @s run tag @s add shakalFirst
-    #scoreboard players set @s timer 0
+    execute as @e[scores={xyneth.radiate=2..}] run scoreboard players reset @s
 }
 
 function visceral4{
@@ -199,7 +218,6 @@ function cruiser{
 
     #execute as @e[type=!player,distance=..5] positioned ~-0.99 ~-0.99 ~-0.99 if entity @s[distance=..5] at @s run setblock ~ ~ ~ fire
     execute as @e[type=!player,distance=..5] positioned ~-0.99 ~-0.99 ~-0.99 if entity @s[distance=..5] at @s run playsound entity.generic.explode ambient @a ~ ~ ~
-    execute as @e[type=!player,distance=..5] positioned ~-0.99 ~-0.99 ~-0.99 if entity @s[distance=..5] at @s run function template:explode
 
     execute as @e[type=!player,distance=..7] positioned ~-0.99 ~-0.99 ~-0.99 if entity @s[distance=..7] run kill @s
     execute positioned ^ ^ ^1 if block ~ ~ ~ air run function template:cruiser
@@ -211,10 +229,7 @@ function cruiser{
     scoreboard players reset @e
 }
 
-function explode
-{
-    say explode
-}
+
 function raycast{
     say tipped fire
     #particle flame ~ ~ ~ 0 0 0 0.01 10
@@ -229,11 +244,3 @@ function raycast{
     
     scoreboard players reset @e
 }
-
-function raycast2{
-    say infernal
-    #add tags
-    scoreboard players reset @e
-}
-
-
