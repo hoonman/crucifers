@@ -25,8 +25,12 @@
 **Desc:** 
 - recipe: netherite hoe + 8 netherite ingots
 
+Sidenote:
+```
+Heletha is one of the seven tyrants of Zenos. She represents "lust" of the seven deadly sins. The idea is that, even in Heletha's death, these weapons are most sought after out of any in the world of Yuria due to the addictive power that they offer. 
+```
 
-resources used:
+Resources used:
 ```
 1. kemo14331's particle converter: https://github.com/kemo14331/Particle-Converter/releases
 2. youtube tutorials 
