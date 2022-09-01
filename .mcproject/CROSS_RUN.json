@@ -1,7 +1,7 @@
 [
   [
     "lastUpdate",
-    "Mon Aug 29 2022 13:58:35 GMT-0700 (Pacific Daylight Time)"
+    "Wed Aug 31 2022 14:57:22 GMT-0700 (Pacific Daylight Time)"
   ],
   [
     "INTERNAL/VIRTUAL_FILE_SYSTEM",
@@ -10,12 +10,15 @@
       "src\\template.mc": {
         "data\\minecraft\\tags\\functions\\load.json": 2240013676,
         "data\\minecraft\\tags\\functions\\tick.json": 1645372991,
-        "data\\template\\functions\\load.mcfunction": 2167173692,
-        "data\\template\\functions\\tick.mcfunction": 3137628600,
+        "data\\template\\functions\\load.mcfunction": 1669003940,
+        "data\\template\\functions\\tick.mcfunction": 2648829684,
+        "data\\template\\functions\\shakalhold.mcfunction": 4190840828,
+        "data\\template\\functions\\exsan.mcfunction": 3060148577,
+        "data\\template\\functions\\scrutinize.mcfunction": 874877554,
+        "data\\template\\functions\\scrutinize_effect.mcfunction": 1019545380,
+        "data\\template\\functions\\removegravity.mcfunction": 3491668140,
         "data\\template\\functions\\getshakal.mcfunction": 3616572987,
-        "data\\template\\functions\\radiate.mcfunction": 404307534,
-        "data\\template\\functions\\visceral2.mcfunction": 2689392931,
-        "data\\template\\functions\\finandtag.mcfunction": 3833069054,
+        "data\\template\\functions\\radiate.mcfunction": 2931111374,
         "data\\template\\functions\\visceral4.mcfunction": 2864621328,
         "data\\template\\functions\\timer.mcfunction": 537572252,
         "data\\template\\functions\\hemorrhage.mcfunction": 38851100,
@@ -24,10 +27,8 @@
         "data\\template\\functions\\hem_particle.mcfunction": 1173756534,
         "data\\template\\functions\\__generated__\\block\\1.mcfunction": 1171589891,
         "data\\template\\functions\\hem_bleeding.mcfunction": 587249440,
-        "data\\template\\functions\\cruiser.mcfunction": 4053384408,
-        "data\\template\\functions\\explode.mcfunction": 976116749,
-        "data\\template\\functions\\raycast.mcfunction": 2561906441,
-        "data\\template\\functions\\raycast2.mcfunction": 2440305535
+        "data\\template\\functions\\cruiser.mcfunction": 226710427,
+        "data\\template\\functions\\raycast.mcfunction": 2561906441
       },
       "src\\macros": {}
     }

@@ -5,7 +5,7 @@
 * [x] **Hemorrhage:** Enemies bleed uncontrollably upon hitting them.
 * [x] **Visceral Strike:** Release a violent strike in the form of a black wave.
 * [ ] **Salvage:** gain strength and speed from idling for a kill
-* [x] **Scrutinize:** apply slowness, mining fatigue, nausea, blindness, night vision, hunger, weakness, glowing (red), bad luck, slow falling (or stationary), darkness(could use if i update my game) for hostile enemies in 8 block radius
+* [ ] **Scrutinize:** apply slowness, mining fatigue, nausea, blindness, night vision, hunger, weakness, glowing (red), bad luck, slow falling (or stationary), darkness(could use if i update my game) for hostile enemies in 8 block radius
 * [ ] **Exsanguinate:** leech health from enemies in a 10 block radius
 - recipe: 8 netherite ingots + netherite sword
 
