@@ -1,7 +1,7 @@
 [
   [
     "lastUpdate",
-    "Wed Aug 31 2022 14:57:22 GMT-0700 (Pacific Daylight Time)"
+    "Thu Sep 01 2022 15:49:13 GMT-0700 (Pacific Daylight Time)"
   ],
   [
     "INTERNAL/VIRTUAL_FILE_SYSTEM",
@@ -10,23 +10,30 @@
       "src\\template.mc": {
         "data\\minecraft\\tags\\functions\\load.json": 2240013676,
         "data\\minecraft\\tags\\functions\\tick.json": 1645372991,
-        "data\\template\\functions\\load.mcfunction": 1669003940,
-        "data\\template\\functions\\tick.mcfunction": 2648829684,
+        "data\\template\\functions\\load.mcfunction": 3263177649,
+        "data\\template\\functions\\tick.mcfunction": 4088383527,
+        "data\\template\\functions\\visceral5.mcfunction": 1834236823,
+        "data\\template\\functions\\timer2.mcfunction": 1737659683,
+        "data\\template\\functions\\remove.mcfunction": 3361670879,
         "data\\template\\functions\\shakalhold.mcfunction": 4190840828,
-        "data\\template\\functions\\exsan.mcfunction": 3060148577,
-        "data\\template\\functions\\scrutinize.mcfunction": 874877554,
+        "data\\template\\functions\\exsan.mcfunction": 2009679509,
+        "data\\template\\functions\\exsan_sound.mcfunction": 27918935,
+        "data\\template\\functions\\exsan_symbol.mcfunction": 3516425031,
+        "data\\template\\functions\\scrutinize.mcfunction": 1126053760,
+        "data\\template\\functions\\scru_symbol.mcfunction": 1897420390,
         "data\\template\\functions\\scrutinize_effect.mcfunction": 1019545380,
         "data\\template\\functions\\removegravity.mcfunction": 3491668140,
         "data\\template\\functions\\getshakal.mcfunction": 3616572987,
         "data\\template\\functions\\radiate.mcfunction": 2931111374,
         "data\\template\\functions\\visceral4.mcfunction": 2864621328,
         "data\\template\\functions\\timer.mcfunction": 537572252,
+        "data\\template\\functions\\salvage.mcfunction": 2660831457,
         "data\\template\\functions\\hemorrhage.mcfunction": 38851100,
         "data\\template\\functions\\__generated__\\block\\0.mcfunction": 407179043,
         "data\\template\\functions\\hem_sound.mcfunction": 4035677775,
         "data\\template\\functions\\hem_particle.mcfunction": 1173756534,
         "data\\template\\functions\\__generated__\\block\\1.mcfunction": 1171589891,
-        "data\\template\\functions\\hem_bleeding.mcfunction": 587249440,
+        "data\\template\\functions\\hem_bleeding.mcfunction": 649812789,
         "data\\template\\functions\\cruiser.mcfunction": 226710427,
         "data\\template\\functions\\raycast.mcfunction": 2561906441
       },

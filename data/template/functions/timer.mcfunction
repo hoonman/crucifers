@@ -14,6 +14,5 @@ execute as @e[tag=fin3] at @s rotated as @e[tag=fin] run tp @s ~ ~ ~ ~ ~
 execute as @e[tag=fin] at @e[tag=fin3] facing ^1.8 ^ ^ positioned ^-0.7 ^ ^ run function template:shakal_fin
 execute if entity @e[tag=fin3,distance=..10] run kill @e[tag=fin3]
 execute if entity @s[scores={timer=7}] run kill @e[tag=fin]
-execute if entity @s[scores={timer=200..}] as @e[tag=user] run scoreboard players set @s timer 0
 execute if entity @s[scores={shakal.clicked=2..}] run scoreboard players set @s timer 0
 execute if entity @s[scores={shakal.clicked=2..}] run scoreboard players set @s shakal.clicked 1
