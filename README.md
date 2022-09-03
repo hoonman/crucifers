@@ -29,7 +29,7 @@
 ## Gifs to show abilities:
 ### Shakal:
 #### hemorrhage
-![](https://github.com/hoonman/crucifers/blob/main/misc/gifs/hemorrhage2.gif)
+![](https://github.com/hoonman/crucifers/blob/main/misc/gifs/hemorrhage3.gif)
 
 #### visceral strike
 ![](https://github.com/hoonman/crucifers/blob/main/misc/gifs/visceral_strike2.gif)
