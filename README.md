@@ -27,13 +27,13 @@
 
 
 ## Gifs to show abilities:
-# hemorrhage
+**hemorrhage**
 ![](https://github.com/hoonman/crucifers/blob/main/misc/gifs/hemorrhage2.gif)
 
-# visceral strike
+**visceral strike**
 ![](https://github.com/hoonman/crucifers/blob/main/misc/gifs/visceral_strike2.gif)
 
-# scrutinize
+**scrutinize**
 ![](https://github.com/hoonman/crucifers/blob/main/misc/gifs/scrutinize.gif)
 
 Sidenote:
