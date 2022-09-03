@@ -1,6 +1,6 @@
 # Crucifers
 
-## Shakal
+### Shakal
 **Desc:** Heletha's blood forged into a sword. Its reeking smell is a reminder of the slaughter that the blade is responsible for.
 * [x] **Hemorrhage:** Enemies bleed uncontrollably upon hitting them.
 * [x] **Visceral Strike:** Release a violent strike in the form of a black wave.
@@ -9,25 +9,25 @@
 * [ ] **Exsanguinate:** leech health from enemies in a 10 block radius
 - recipe: netherite sword + 8 netherite ingots
 
-## Xyneth
+### Xyneth
 **Desc:** Agent of Annihilation. Even in its dormant state, its corruption will spread uncontrollably.
 - recipe: netherite axe + 8 netherite ingots
 
-## Werejix
+### Werejix
 **Desc:** The ragged claws of Heletha. It gnaws at the user themselves, inflicting pain only a few can tolerate.
 - recipe: netherite shovel + 8 netherite ingots
 
-## Rhakal
+### Rhakal
 **Desc:** 
 - recipe: netherite pickaxe + 8 netherite ingots
 
-## Karbane
+### Karbane
 **Desc:** 
 - recipe: netherite hoe + 8 netherite ingots
 
 
 ## Gifs to show abilities:
-
+### Shakal:
 #### hemorrhage
 ![](https://github.com/hoonman/crucifers/blob/main/misc/gifs/hemorrhage2.gif)
 
