@@ -25,11 +25,21 @@
 **Desc:** 
 - recipe: netherite hoe + 8 netherite ingots
 
+
+## Gifs to show abilities:
+# hemorrhage
+![](https://github.com/hoonman/crucifers/blob/main/misc/gifs/hemorrhage2.gif)
+
+# visceral strike
+![](https://github.com/hoonman/crucifers/blob/main/misc/gifs/visceral_strike2.gif)
+
+# scrutinize
+![](https://github.com/hoonman/crucifers/blob/main/misc/gifs/scrutinize.gif)
+
 Sidenote:
 ```
 Heletha is one of the seven tyrants of Zenos. She represents "lust" of the seven deadly sins. The idea is that, even in Heletha's death, these weapons are most sought after out of any in the world of Yuria due to the addictive power that they offer. 
 ```
-
 Resources used:
 ```
 1. kemo14331's particle converter: https://github.com/kemo14331/Particle-Converter/releases
