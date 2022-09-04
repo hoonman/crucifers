@@ -51,28 +51,37 @@ function tick{
     execute as @a[nbt={Inventory:[{id:"minecraft:carrot_on_a_stick",tag:{CustomModelData:2002001}}]}] unless entity @s[tag=shakalhold] run function template:shakalhold
     execute as @a[scores={sneak=1..}] run scoreboard players set @s sneak 0
 
-    execute as @a[scores={xyneth.radiate=1..},nbt={SelectedItem:{id:"minecraft:carrot_on_a_stick",tag:{CustomModelData:2002002}}}] at @s run function template:radiate
+    #execute as @a[scores={xyneth.radiate=1..},nbt={SelectedItem:{id:"minecraft:carrot_on_a_stick",tag:{CustomModelData:2002002}}}] at @s run function template:radiate
     execute as @a[scores={xyneth.skulls=1..},nbt={SelectedItem:{id:"minecraft:carrot_on_a_stick",tag:{CustomModelData:2002002}}}] at @s run function template:skulls
-    execute as @a[scores={xyneth.skulls_clicked=1..},nbt={SelectedItem:{id:"minecraft:carrot_on_a_stick",tag:{CustomModelData:2002002}}}] at @s run function template:skulls_timer
+    #execute as @a[scores={xyneth.skulls_clicked=1..},nbt={SelectedItem:{id:"minecraft:carrot_on_a_stick",tag:{CustomModelData:2002002}}}] at @s run function template:skulls_timer
+    execute as @a[scores={xyneth.skulls_clicked=1..},nbt={SelectedItem:{id:"minecraft:carrot_on_a_stick",tag:{CustomModelData:2002002}}}] at @s run function template:lingering
     execute at @e[type=item,nbt={Item:{id:"minecraft:netherite_sword",Count:1b}}] if entity @e[type=item,nbt={Item:{id:"minecraft:netherite_ingot",Count:8b}},distance=..1] run function template:getshakal
 
 }
 
 function skulls{
     say skulls
-    summon armor_stand ~ ~ ~ {NoAI:1b,Silent:1b,Tags:["skulls"],NoGravity:1b,Invisible:1b}
+    #summon armor_stand ~ ~ ~ {NoAI:1b,Silent:1b,Tags:["skulls"],NoGravity:1b}
+    execute if entity @e[tag=!user,distance=30..] run say too far away!
+    execute run function template:skulls_armor_stand
     execute if entity @s[scores={xyneth.skulls_clicked=2..}] run kill @e[tag=skulls,tag=skulls2]
     
-    #tag @e[type=armor_stand,distance=..3] add skulls
-
-    summon armor_stand ~ ~ ~ {NoAI:1b,Silent:1b,Tags:["skulls2"],NoGravity:1b,Invisible:1b}
-
-    spreadplayers ~ ~ 0.001 4 false @e[tag=skulls]
-    #execute as @e[tag=skulls] at @s run particle dust 0 0 0 1 ~ ~1.5 ~ 0.1 0.1 0.1 0.001 50 normal
-    execute as @e[tag=skulls2] at @s run particle dust 0.102 0.867 0.165 1 ~ ~1.5 ~ 0.1 0.1 0.1 0.001 50 normal
-    #execute as @e[nbt={HurtTime:10s}] at @s run particle minecraft:block minecraft:redstone_wire ~ ~1.24 ~ 0.1 0.1 0.1 0.001 50 normal
+    # summon armor_stand ~ ~ ~ {NoAI:1b,Silent:1b,Tags:["skulls2"],NoGravity:1b}
+    # summon armor_stand ~ ~ ~ {NoAI:1b,Silent:1b,Tags:["skulls3"],NoGravity:1b}
+    # summon armor_stand ~ ~ ~ {NoAI:1b,Silent:1b,Tags:["skulls4"],NoGravity:1b}
+    # summon armor_stand ~ ~ ~ {NoAI:1b,Silent:1b,Tags:["skulls5"],NoGravity:1b}
+    # summon armor_stand ~ ~ ~ {NoAI:1b,Silent:1b,Tags:["skulls6"],NoGravity:1b}
 
     scoreboard players set @s xyneth.skulls 0
+}
+
+function skulls_armor_stand{
+    summon armor_stand ~ ~ ~ {NoAI:1b,Silent:1b,Tags:["skulls"],NoGravity:1b,Invisible:1b}
+    summon armor_stand ~ ~ ~ {NoAI:1b,Silent:1b,Tags:["skulls2"],NoGravity:1b,Invisible:1b}
+    summon armor_stand ~ ~ ~ {NoAI:1b,Silent:1b,Tags:["skulls3"],NoGravity:1b,Invisible:1b}
+    summon armor_stand ~ ~ ~ {NoAI:1b,Silent:1b,Tags:["skulls4"],NoGravity:1b,Invisible:1b}
+    summon armor_stand ~ ~ ~ {NoAI:1b,Silent:1b,Tags:["skulls5"],NoGravity:1b,Invisible:1b}
+    summon armor_stand ~ ~ ~ {NoAI:1b,Silent:1b,Tags:["skulls6"],NoGravity:1b,Invisible:1b}
 }
 
 function skulls_timer{
@@ -110,7 +119,58 @@ function skulls_timer{
         say did it run till here? 3
     execute if entity @s[scores={xyneth.skulls_clicked=2..}] run scoreboard players set @s skulls_timer 0
     execute if entity @s[scores={xyneth.skulls_clicked=2..}] run scoreboard players set @s xyneth.skulls_clicked 1
+}
 
+function lingering{
+    say lingering 
+    scoreboard players add @a[tag=user] skulls_timer 1
+    execute as @e[tag=skulls2] at @s run particle dust 0.102 0.867 0.165 1 ~ ~-2 ~ 0.1 0.1 0.1 0.001 50 normal
+    execute as @e[tag=skulls4] at @s run particle dust 0.157 0.502 0.184 1 ~ ~-2 ~ 0.1 0.1 0.1 0.001 50 normal
+    execute as @e[tag=skulls6] at @s run particle dust 0.498 0.675 0.361 1 ~ ~-2 ~ 0.1 0.1 0.1 0.001 50 normal
+
+    execute as @e[tag=skulls] at @s if entity @a[tag=user,scores={skulls_timer=..30}] facing entity @e[limit=1,distance=..30,type=!armor_stand,tag=!user,sort=nearest] eyes run tp @s ^1 ^0.1 ^1
+    execute as @e[tag=skulls] at @s if entity @a[tag=user,scores={skulls_timer=30..40}] facing entity @e[limit=1,distance=..30,type=!armor_stand,tag=!user] eyes run tp @s ^1 ^ ^1
+
+    execute as @e[tag=skulls3] at @s if entity @a[tag=user,scores={skulls_timer=..30}] facing entity @e[limit=1,distance=..30,type=!armor_stand,tag=!user,sort=nearest] eyes run tp @s ^-1 ^0.1 ^1
+    execute as @e[tag=skulls3] at @s if entity @a[tag=user,scores={skulls_timer=30..40}] facing entity @e[limit=1,distance=..30,type=!armor_stand,tag=!user] eyes run tp @s ^1 ^ ^1
+    
+    execute as @e[tag=skulls5] at @s if entity @a[tag=user,scores={skulls_timer=..30}] facing entity @e[limit=1,distance=..30,type=!armor_stand,tag=!user,sort=nearest] eyes run tp @s ^ ^0.1 ^1
+    execute as @e[tag=skulls5] at @s if entity @a[tag=user,scores={skulls_timer=30..40}] facing entity @e[limit=1,distance=..30,type=!armor_stand,tag=!user] eyes run tp @s ^1 ^ ^1
+
+    execute as @e[tag=skulls2] at @s facing entity @e[tag=skulls] eyes run tp @e[distance=..5,type=!armor_stand,tag=!user] ^ ^0.5 ^-2
+    execute as @e[tag=skulls4] at @s facing entity @e[tag=skulls] eyes run tp @e[distance=..5,type=!armor_stand,tag=!user] ^ ^0.5 ^-2
+    execute as @e[tag=skulls6] at @s facing entity @e[tag=skulls] eyes run tp @e[distance=..5,type=!armor_stand,tag=!user] ^ ^0.5 ^-2
+
+    execute as @e[tag=skulls2] at @s facing entity @e[tag=skulls] eyes run effect give @e[tag=!skulls2,tag=!user,tag=!skulls,distance=..6] wither 1 7 true
+    execute as @e[tag=skulls2] at @s facing entity @e[tag=skulls] eyes run effect give @e[tag=!skulls2,tag=!user,tag=!skulls,distance=..6] poison 1 7 false
+
+    execute as @e[tag=skulls4] at @s facing entity @e[tag=skulls] eyes run effect give @e[tag=!skulls2,tag=!user,tag=!skulls,distance=..6] wither 1 7 true
+    execute as @e[tag=skulls4] at @s facing entity @e[tag=skulls] eyes run effect give @e[tag=!skulls2,tag=!user,tag=!skulls,distance=..6] poison 1 7 false
+
+    execute as @e[tag=skulls6] at @s facing entity @e[tag=skulls] eyes run effect give @e[tag=!skulls2,tag=!user,tag=!skulls,distance=..6] wither 1 7 true
+    execute as @e[tag=skulls6] at @s facing entity @e[tag=skulls] eyes run effect give @e[tag=!skulls2,tag=!user,tag=!skulls,distance=..6] poison 1 7 false
+    
+    execute as @e[tag=user] at @s if entity @a[tag=user,scores={skulls_timer=40..}] run kill @e[tag=skulls]
+    execute as @e[tag=user] at @s if entity @a[tag=user,scores={skulls_timer=40..}] run kill @e[tag=skulls2]
+    execute as @e[tag=user] at @s if entity @a[tag=user,scores={skulls_timer=40..}] run kill @e[tag=skulls3]
+    execute as @e[tag=user] at @s if entity @a[tag=user,scores={skulls_timer=40..}] run kill @e[tag=skulls4]
+    execute as @e[tag=user] at @s if entity @a[tag=user,scores={skulls_timer=40..}] run kill @e[tag=skulls5]
+    execute as @e[tag=user] at @s if entity @a[tag=user,scores={skulls_timer=40..}] run kill @e[tag=skulls6]
+    execute as @e[tag=user] at @s if entity @a[tag=user,scores={skulls_timer=40..}] run scoreboard players set @a[tag=user] skulls_timer 0 
+    execute at @e[tag=skulls2,limit=1] run playsound entity.zombie.hurt ambient @a[tag=user] ~ ~ ~ 1 0
+
+
+    execute as @e[tag=skulls2] at @s facing entity @e[tag=skulls] eyes run tp @s ^ ^ ^1
+    execute as @e[tag=skulls4] at @s facing entity @e[tag=skulls3] eyes run tp @s ^ ^ ^1
+    execute as @e[tag=skulls6] at @s facing entity @e[tag=skulls5] eyes run tp @s ^ ^ ^1
+    
+    execute as @e[tag=skulls] at @s if entity @a[tag=user,scores={skulls_timer=4}] run spreadplayers ~ ~ 1 2 false @e[tag=skulls]
+
+    execute as @e[tag=user,scores={skulls_timer=40..}] run scoreboard players set @s skulls_timer 0
+    execute if entity @s[scores={xyneth.skulls_clicked=2..}] run scoreboard players set @s skulls_timer 0
+    execute if entity @s[scores={xyneth.skulls_clicked=2..}] run scoreboard players set @s xyneth.skulls_clicked 1
+    execute if entity @s[scores={xyneth.skulls_clicked=2..}] run kill @e[tag=skulls]
+    execute if entity @s[scores={xyneth.skulls_clicked=2..}] run kill @e[tag=skulls2]
 }
 
 function visceral5{
@@ -136,7 +196,7 @@ function visceral5{
     execute as @e[tag=!user] positioned ~-0.99 ~-0.99 ~-0.99 if entity @s[distance=..7] run effect give @s instant_damage 1 1 true
     execute as @e[tag=!user] positioned ~-0.99 ~-0.99 ~-0.99 if entity @s[distance=..7] run effect give @s wither 1 1 true
     execute as @e[tag=!user] positioned ~-0.99 ~-0.99 ~-0.99 if entity @s[distance=..7] run effect give @s instant_health 1 1 true
-    execute as @e[tag=!user,tag=!vis] at @a[tag=user] if entity @s[distance=..7] facing entity @a[tag=user] eyes at @s run tp @s ^ ^1.6 ^-2
+    #execute as @e[tag=!user,tag=!vis] if entity @s[distance=..7] facing entity @a[tag=user] feet at @s run tp @s ^ ^1.6 ^1
    # execute as @e[tag=!user] at @s if entity @s[distance=..2] facing entity @a[tag=user] eyes run tp @e[tag=!user,distance=..2,tag=!vis] ^ ^1.5 ^-2
     #format : execute as @e[tag=skulls2] at @s facing entity @e[tag=skulls] eyes run tp @e[tag=!skulls2,tag=!user,tag=!skulls,distance=..3] ^ ^1 ^-2
 
@@ -193,7 +253,7 @@ function exsan{
     playsound minecraft:block.lava.pop ambient @s ~ ~ ~ 50 0.3
     execute as @e[tag=!user,type=!arrow,type=!item,type=!item_frame,type=!armor_stand] at @s run summon armor_stand ~ ~0.1 ~ {Tags:["exsan"],ActiveEffects:[{Id:28,Duration:1000000,ShowParticles:true}],Invisible:1b,NoGravity:1b}
 
-    execute as @s run schedule function template:exsan_sound 2.5s replace
+    execute as @a[tag=user] if entity @e[distance=..30,tag=!user] run schedule function template:exsan_sound 2.5s replace
  
     execute as @a[tag=user] at @s anchored eyes positioned ~ ~1 ~ run function template:exsan_symbol
 
@@ -348,19 +408,19 @@ function getshakal{
 function radiate{
     execute as @s run tag @s add radiate_user
     scoreboard players add @s radiate_timer 1
-    #execute if entity @s[tag=radiate_user,scores={radiate_timer=5}] as @s at @s positioned ^1 ^2 ^ run function template:radiate_skull
+    execute as @e[tag=radiate_user] if entity @s[scores={radiate_timer=20..}] run scoreboard players set @s radiate_timer 0
+    execute as @e[tag=radiate_user] if entity @s[scores={radiate_timer=10}] at @s run particle block minecraft:slime_block ~ ~1 ~ 3 3 3 0.001 200 normal
+    execute as @e[tag=radiate_user] if entity @s[scores={radiate_timer=10}] at @s run playsound minecraft:entity.slime.attack ambient @a[tag=user] ~ ~ ~ 200 0
+    execute as @e[tag=!radiate_user,distance=..7] if entity @a[scores={radiate_timer=10}] run effect give @s wither 1 3 false
 
-    execute as @e[tag=radiate_user] if entity @s[scores={radiate_timer=100..}] run scoreboard players set @s radiate_timer 0
-    execute as @s at @s run particle minecraft:block minecraft:slime_block ~ ~1 ~ 4 4 4 0.001 15 normal 
 
-    execute as @e[tag=!radiate_user,distance=..7] run effect give @s wither 1 7 true
+    #execute as @e[tag=!radiate_user,distance=..7] run effect give @s wither 1 7 true
     execute as @e[tag=!radiate_user,distance=..7] run effect give @s nausea 1 3 true
-    execute as @e[tag=!radiate_user,distance=..7] run effect give @s poison 1 7 false
-    #playsound entity.slime.attack ambient @s ~ ~ ~ 
-
+    #execute as @e[tag=!radiate_user,distance=..7] run effect give @s poison 1 7 false
+    execute as @e[tag=!radiate_user,distance=..7,type=!armor_stand,type=!arrow] at @s anchored eyes run particle dust 0.212 0.808 0.38 1 ~ ~2 ~ 0.01 0.01 0.01 0.001 10 normal
     tag @s remove radiate_user
 
-    execute as @e[scores={xyneth.radiate=2..}] run scoreboard players set @s xyneth.radiate 0
+    #execute as @e[scores={xyneth.radiate=2..}] run scoreboard players set @s xyneth.radiate 0
     
 }
 
@@ -408,25 +468,6 @@ function timer{
     execute if entity @e[tag=fin3,distance=..10] run kill @e[tag=fin3]
 
     execute if entity @s[scores={timer=7}] run kill @e[tag=fin]
-
-    # execute as @a[scores={shakal.attacked=1..}] run tag @s remove salvage3
-    # execute as @a[scores={shakal.attacked=1..}] run tag @s remove salvage2
-    # execute as @a[scores={shakal.attacked=1..}] run tag @s remove salvage1
-    # execute as @a[scores={shakal.attacked=1..}] run scoreboard players set @s shakal.attacked 0
-
-    #execute if entity @s[scores={timer=200..}] as @e[tag=user] run scoreboard players set @s timer 0
-
-    # execute if entity @s[scores={timer=30}] as @e[tag=user,tag=!salvage1] run effect give @s strength 10 0 true
-    # execute if entity @s[scores={timer=30}] as @e[tag=user,tag=!salvage1] run effect give @s speed 10 0 true
-    # execute if entity @s[scores={timer=30}] as @e[tag=user] run tag @s add salvage1
-
-    # execute if entity @s[scores={timer=90}] as @e[tag=user,tag=salvage1,tag=!salvage3] run effect give @s strength 10 1 true
-    # execute if entity @s[scores={timer=90}] as @e[tag=user,tag=salvage1,tag=!salvage3] run effect give @s speed 10 1 true
-    # execute if entity @s[scores={timer=90}] as @e[tag=user,tag=salvage1,tag=!salvage3] run tag @s add salvage2
-
-    # execute if entity @s[scores={timer=150}] as @e[tag=user,tag=salvage2] run effect give @s strength 10 2 true
-    # execute if entity @s[scores={timer=150}] as @e[tag=user,tag=salvage2] run effect give @s speed 10 2 true
-    # execute if entity @s[scores={timer=150}] as @e[tag=user,tag=salvage2] run tag @s add salvage3
 
     execute if entity @s[scores={shakal.clicked=2..}] run scoreboard players set @s timer 0
     execute if entity @s[scores={shakal.clicked=2..}] run scoreboard players set @s shakal.clicked 1
