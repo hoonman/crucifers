@@ -12,7 +12,7 @@
 ### Xyneth
 **Desc:** Agent of Annihilation. Even in its dormant state, its corruption will spread uncontrollably.
 * [x] **Radiate:** Emit radioactive energy in a 7 block radius.
-* [x] **Lingering Skulls:** Temporarily stop RADIATE and realse compact skulls that track the nearest enemies. Those that are hit with the skulls are propelled upwards.
+* [x] **Lingering Skulls:** Temporarily stop RADIATE and release compact skulls that track the nearest enemies. Those that are hit with the skulls are propelled upwards.
 * [ ] **Horrid Infestration:** Diseased insects swarm the enemy that the user hit. Affects striked enemies with nausea, hunger, weakness, and slowness.
 * [ ] **Contaminate:** Continuously release waves of toxic waste for a period of time. 
 * [ ] **Putrefaction:** Roots of corrupt vines sprout from the ground to impale enemies within a certain radius. 
