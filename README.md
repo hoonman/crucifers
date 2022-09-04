@@ -37,6 +37,9 @@
 #### scrutinize
 ![](https://github.com/hoonman/crucifers/blob/main/misc/gifs/scrutinize.gif)
 
+#### exsanguinate
+![](https://github.com/hoonman/crucifers/blob/main/misc/gifs/exsanguinate.gif)
+
 Sidenote:
 ```
 Heletha is one of the seven tyrants of Zenos. She represents "lust" of the seven deadly sins. The idea is that, even in Heletha's death, these weapons are most sought after out of any in the world of Yuria due to the addictive power that they offer. 
