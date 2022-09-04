@@ -2,4 +2,4 @@
 
 execute as @s run function template:hem_sound
 execute as @s run function template:hem_particle
-scoreboard players reset @e
+scoreboard players set @a shakal.hemorrhage 0

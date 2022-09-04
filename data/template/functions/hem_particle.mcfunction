@@ -4,5 +4,4 @@ execute as @e[nbt={HurtTime:10s}] at @s run particle minecraft:block minecraft:r
 tag @e[nbt={HurtTime:10s}] add hurt
 scoreboard players set @e[tag=hurt, nbt={HurtTime:10s}] shakal.hemorrhage 0
 execute as @e[nbt={HurtTime:10s}] at @s run function template:hem_bleeding
-scoreboard players reset @a
-scoreboard players reset @e
+scoreboard players set @e shakal.hemorrhage 0
