@@ -10,9 +10,8 @@ execute as @s store result score @s visceral.rot1 run data get entity @s Rotatio
 execute as @s store result score @s visceral.rot2 run data get entity @s Rotation[1] 1
 execute store result storage minecraft:rot1 rot1 float 1 run scoreboard players get @a[tag=user,limit=1] visceral.rot1
 execute store result storage minecraft:rot2 rot2 float 1 run scoreboard players get @a[tag=user,limit=1] visceral.rot2
-execute as @e[tag=!user] positioned ~-0.99 ~-0.99 ~-0.99 if entity @s[distance=..7] run effect give @s instant_damage 1 1 true
 execute as @e[tag=!user] positioned ~-0.99 ~-0.99 ~-0.99 if entity @s[distance=..7] run effect give @s wither 1 1 true
-execute as @e[tag=!user] positioned ~-0.99 ~-0.99 ~-0.99 if entity @s[distance=..7] run effect give @s instant_health 1 1 true
+execute as @e[tag=!user,type=!armor_stand] positioned ~-0.99 ~-0.99 ~-0.99 if entity @s[distance=..7] store result entity @s Health float 1 run scoreboard players remove @s health 18
 data modify entity @e[limit=1,tag=vis] Rotation[0] set from storage minecraft:rot1 rot1
 data modify entity @e[limit=1,tag=vis] Rotation[1] set from storage minecraft:rot2 rot2
 playsound entity.wither.shoot ambient @s ~ ~ ~ 50 0

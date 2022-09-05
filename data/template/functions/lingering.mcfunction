@@ -1,6 +1,5 @@
 #built using mc-build (https://github.com/mc-build/mc-build)
 
-say lingering
 scoreboard players add @a[tag=user] skulls_timer 1
 execute as @e[tag=skulls2] at @s run particle dust 0.102 0.867 0.165 1 ~ ~-2 ~ 0.1 0.1 0.1 0.001 50 normal
 execute as @e[tag=skulls4] at @s run particle dust 0.157 0.502 0.184 1 ~ ~-2 ~ 0.1 0.1 0.1 0.001 50 normal

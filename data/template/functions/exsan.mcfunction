@@ -11,4 +11,4 @@ execute as @a[tag=user] if entity @e[distance=..30,tag=!user] run schedule funct
 execute as @a[tag=user] at @s anchored eyes positioned ~ ~1 ~ run function template:exsan_symbol
 execute as @s run tag @s remove sneaking
 scoreboard players set @s sneak 0
-scoreboard players reset @e
+scoreboard players set @s shakal.visceral 0
