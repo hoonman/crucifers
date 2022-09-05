@@ -14,8 +14,8 @@
 * [x] **Radiate:** Emit radioactive energy in a 7 block radius.
 * [x] **Lingering Skulls:** Temporarily stop RADIATE and release compact skulls that track the nearest enemies. Those that are hit with the skulls are propelled upwards.
 * [ ] **Horrid Infestation:** Diseased insects swarm the enemy that the user hit. Affects striked enemies with nausea, hunger, weakness, and slowness.
-* [ ] **Contaminate:** Continuously release waves of toxic waste for a period of time. 
-* [ ] **Putrefaction:** Roots of corrupt vines sprout from the ground to impale enemies within a certain radius. 
+* [x] **Contaminate:** Continuously release waves of toxic waste for a period of time. 
+* [x] **Putrefaction:** Roots of corrupt vines sprout from the ground to impale enemies within a certain radius. 
 - recipe: netherite axe + 8 netherite ingots
 
 ### Werejix
@@ -44,6 +44,19 @@
 
 #### exsanguinate
 ![](https://github.com/hoonman/crucifers/blob/main/misc/gifs/exsanguinate.gif)
+
+### Xyneth:
+#### radiate
+![](https://github.com/hoonman/crucifers/blob/main/misc/gifs/radiate.gif)
+
+#### lingering skulls
+![](https://github.com/hoonman/crucifers/blob/main/misc/gifs/lingering.gif)
+
+#### contaminate
+![](https://github.com/hoonman/crucifers/blob/main/misc/gifs/contaminate.gif)
+
+#### putrefaction
+![](https://github.com/hoonman/crucifers/blob/main/misc/gifs/putrefaction.gif)
 
 Sidenote:
 ```
