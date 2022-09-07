@@ -20,6 +20,11 @@
 
 ### Werejix
 **Desc:** The ragged claws of Heletha. It gnaws at the user themselves, inflicting pain only a few can tolerate.
+* [x] **Ragged Slash:** Release three flesh rending gashes that deal knockback damage for every tick the target is damaged.
+* [ ] **Shredding Dance:** after 2 ragged slashes, lunge the user forwards to perform 3 RAGGED SLASHES while dashing that chains if there are more enemies.
+* [x] **Volunatry Suffering:** user takes damage while having this weapon equipped, but stops when user's hp drops to a certain point. User's atk damage increases as user's health increases. 
+* [x] **Stimulus:** user temporarily takes no damage from VOLUNTARY SUFFERING. All damage that user would've taken are reflected back to enemies near the user.
+* [x] **Feral Rage:** increase user's speed(3) and haste(3). Hitting an enemy forcefully moves the user closely towards that target. 
 - recipe: netherite shovel + 8 netherite ingots
 
 ### Rhakal
