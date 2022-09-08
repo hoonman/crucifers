@@ -42,7 +42,7 @@
 ![](https://github.com/hoonman/crucifers/blob/main/misc/gifs/hemorrhage3.gif)
 
 #### visceral strike
-![](https://github.com/hoonman/crucifers/blob/main/misc/gifs/visceral_strike2.gif)
+![](https://github.com/hoonman/crucifers/blob/main/misc/gifs/visceral_strike3.gif)
 
 #### scrutinize
 ![](https://github.com/hoonman/crucifers/blob/main/misc/gifs/scrutinize.gif)
@@ -55,13 +55,26 @@
 ![](https://github.com/hoonman/crucifers/blob/main/misc/gifs/radiate.gif)
 
 #### lingering skulls
-![](https://github.com/hoonman/crucifers/blob/main/misc/gifs/lingering.gif)
+![](https://github.com/hoonman/crucifers/blob/main/misc/gifs/lingering2.gif)
 
 #### contaminate
 ![](https://github.com/hoonman/crucifers/blob/main/misc/gifs/contaminate.gif)
 
 #### putrefaction
-![](https://github.com/hoonman/crucifers/blob/main/misc/gifs/putrefaction.gif)
+![](https://github.com/hoonman/crucifers/blob/main/misc/gifs/putrefaction3.gif)
+
+### Werejix:
+#### ragged slash
+![](https://github.com/hoonman/crucifers/blob/main/misc/gifs/ragged_slash.gif)
+
+#### voluntary suffering
+![](https://github.com/hoonman/crucifers/blob/main/misc/gifs/voluntary_suffering.gif)
+
+#### stimulus
+![](https://github.com/hoonman/crucifers/blob/main/misc/gifs/stimulus2.gif)
+
+#### feral rage
+![](https://github.com/hoonman/crucifers/blob/main/misc/gifs/feral_rage.gif)
 
 Sidenote:
 ```
