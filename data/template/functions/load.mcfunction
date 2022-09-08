@@ -22,7 +22,20 @@ scoreboard objectives add shakal.hold minecraft.used:minecraft.carrot_on_a_stick
 scoreboard objectives add xyneth.radiate minecraft.used:minecraft.carrot_on_a_stick
 scoreboard objectives add xyneth.skulls minecraft.used:minecraft.carrot_on_a_stick
 scoreboard objectives add xyneth.skulls_clicked minecraft.used:minecraft.carrot_on_a_stick
+scoreboard objectives add werejix.timer minecraft.used:minecraft.carrot_on_a_stick
+scoreboard objectives add werejix.ragged minecraft.custom:damage_dealt
+scoreboard objectives add werejix.ragged.attacked dummy
+scoreboard objectives add feral.timer dummy
+scoreboard objectives add stim.timer dummy
+scoreboard objectives add motion_x1 dummy
+scoreboard objectives add motion_y1 dummy
+scoreboard objectives add motion_z1 dummy
+scoreboard objectives add motion_x2 dummy
+scoreboard objectives add motion_y2 dummy
+scoreboard objectives add motion_z2 dummy
 team add scrutinized
 team modify scrutinized color dark_red
+team add noCollision
+team modify noCollision collisionRule never
 data merge storage minecraft:rot1 {rot1:1f}
 data merge storage minecraft:rot2 {rot2:1f}

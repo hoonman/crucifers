@@ -30,9 +30,26 @@ function load{
     scoreboard objectives add xyneth.radiate minecraft.used:minecraft.carrot_on_a_stick
     scoreboard objectives add xyneth.skulls minecraft.used:minecraft.carrot_on_a_stick
     scoreboard objectives add xyneth.skulls_clicked minecraft.used:minecraft.carrot_on_a_stick
+
+    scoreboard objectives add werejix.timer minecraft.used:minecraft.carrot_on_a_stick
+    scoreboard objectives add werejix.ragged minecraft.custom:damage_dealt
+    scoreboard objectives add werejix.ragged.attacked dummy
+    scoreboard objectives add feral.timer dummy
+    scoreboard objectives add stim.timer dummy
+
+    #knockback scoreboards
+    scoreboard objectives add motion_x1 dummy
+    scoreboard objectives add motion_y1 dummy
+    scoreboard objectives add motion_z1 dummy
+
+    scoreboard objectives add motion_x2 dummy
+    scoreboard objectives add motion_y2 dummy
+    scoreboard objectives add motion_z2 dummy
     
     team add scrutinized 
     team modify scrutinized color dark_red
+    team add noCollision
+    team modify noCollision collisionRule never
 
     data merge storage minecraft:rot1 {rot1:1f}
     data merge storage minecraft:rot2 {rot2:1f}
@@ -55,6 +72,8 @@ function tick{
     execute as @a[tag=xynethhold,nbt=!{Inventory:[{id:"minecraft:carrot_on_a_stick",tag:{CustomModelData:2002002}}]}] run function template:putrefaction
     execute as @a[nbt={Inventory:[{id:"minecraft:carrot_on_a_stick",tag:{CustomModelData:2002002}}]}] unless entity @s[tag=xynethhold] run function template:xynethhold
 
+
+
     #execute as @a[scores={sneak=1..}] run scoreboard players set @s sneak 0
 
     execute as @a[scores={xyneth.radiate=1..},nbt={SelectedItem:{id:"minecraft:carrot_on_a_stick",tag:{CustomModelData:2002002}}}] at @s run function template:radiate
@@ -64,8 +83,201 @@ function tick{
     
     execute as @a[scores={xyneth.skulls_clicked=1..},tag=!sneaking,nbt={SelectedItem:{id:"minecraft:carrot_on_a_stick",tag:{CustomModelData:2002002}}}] at @s run function template:lingering
     execute at @e[type=item,nbt={Item:{id:"minecraft:netherite_sword",Count:1b}}] if entity @e[type=item,nbt={Item:{id:"minecraft:netherite_ingot",Count:8b}},distance=..1] run function template:getshakal
+    execute at @e[type=item,nbt={Item:{id:"minecraft:netherite_axe",Count:1b}}] if entity @e[type=item,nbt={Item:{id:"minecraft:netherite_ingot",Count:8b}},distance=..1] run function template:getxyneth
+    execute at @e[type=item,nbt={Item:{id:"minecraft:netherite_shovel",Count:1b}}] if entity @e[type=item,nbt={Item:{id:"minecraft:netherite_ingot",Count:8b}},distance=..1] run function template:getwerejix
+
+    execute as @a[scores={werejix.ragged=1..},nbt={SelectedItem:{id:"minecraft:carrot_on_a_stick",tag:{CustomModelData:2002003}}}] at @s run function template:ragged
+    execute as @a[scores={werejix.timer=1..},nbt={SelectedItem:{id:"minecraft:carrot_on_a_stick",tag:{CustomModelData:2002003}}}] at @s run function template:hovering_armor
+    execute as @a[scores={werejix.timer=1..,sneak=1..},nbt={SelectedItem:{id:"minecraft:carrot_on_a_stick",tag:{CustomModelData:2002003}}}] at @s run function template:stimulus
+    execute as @a[scores={werejix.timer=1..,sneak=1..},nbt={SelectedItem:{id:"minecraft:carrot_on_a_stick",tag:{CustomModelData:2002003}}}] at @s run function template:stimulus_sound
+    execute as @a[scores={werejix.timer=1..,sneak=0},nbt={SelectedItem:{id:"minecraft:carrot_on_a_stick",tag:{CustomModelData:2002003}}}] run scoreboard players set @s stim.timer 0
+    execute as @a[tag=werejixhold,nbt=!{Inventory:[{id:"minecraft:carrot_on_a_stick",tag:{CustomModelData:2002003}}]}] run function template:feral_rage
+    execute as @a[nbt={Inventory:[{id:"minecraft:carrot_on_a_stick",tag:{CustomModelData:2002003}}]}] unless entity @s[tag=werejixhold] run function template:werejixhold
+
+    #knockback
+    #execute as @e[nbt={HurtTime:10s},tag=!hover,tag=!user,team=!scrutinized,tag=!hurt] at @s rotated as @p run function template:apply_motion
+
     execute as @a[scores={sneak=1..}] run scoreboard players set @s sneak 0
 
+}
+
+function stimulus_sound{
+    say stimulus sound
+    execute as @s[scores={stim.timer=1}] run playsound entity.spider.death ambient @a ~ ~ ~ 200 0
+    scoreboard players add @s stim.timer 1
+    execute as @s[scores={sneak=0}] run scoreboard players set @s stim.timer 0
+}
+
+function apply_motion{
+    say apply
+    execute store result score @s motion_x1 run data get entity @s Pos[0] 1000
+    execute store result score @s motion_y1 run data get entity @s Pos[1] 1000
+    execute store result score @s motion_z1 run data get entity @s Pos[2] 1000
+
+    tp @s ^ ^ ^0.1
+    execute store result score @s motion_x2 run data get entity @s Pos[0] 1000
+    execute store result score @s motion_y2 run data get entity @s Pos[1] 1000
+    execute store result score @s motion_z2 run data get entity @s Pos[2] 1000
+
+    #second becomes the "new"
+    execute store result entity @s Motion[0] double 0.005 run scoreboard players operation @s motion_x2 -= @s motion_x1
+    #execute store result entity @s Motion[1] double 0.01 run scoreboard players operation @s motion_y2 -= @s motion_y1
+    data modify entity @s Motion[1] set value 0.35
+    
+    execute store result entity @s Motion[2] double 0.005 run scoreboard players operation @s motion_z2 -= @s motion_z1
+
+    #tag @s add motion_added
+}
+
+function feral_rage{
+    say feral rage!
+    playsound entity.ender_dragon.growl ambient @a ~ ~ ~ 100 0
+    #execute as @a[tag=user] at @s run function template:garque_face
+    scoreboard players set @a[tag=user] feral.timer 0
+    execute as @e[type=item] run data modify entity @s PickupDelay set value 0
+    execute as @a[tag=user] if entity @e[tag=!user] run schedule function template:feral_repeat 0.1s replace
+    execute as @s run tag @s remove werejixhold
+
+}
+
+function feral_repeat{
+    execute as @a[tag=user] run effect give @s haste 1 2 true
+    execute as @a[tag=user] run effect give @s slow_falling 1 1 true
+    #execute as @a[tag=user] positioned as @e[tag=!user,type=!armor_stand,tag=!hover,limit=1,sort=nearest] run tp @s ^3 ^ ^ ~90 ~
+    execute as @a[tag=user] positioned as @e[tag=!user,type=!armor_stand,tag=!hover,limit=1,sort=nearest] run tp @s ~3 ~ ~ ~90 ~
+    execute as @e[tag=user,scores={feral.timer=..150}] unless entity @a[scores={feral.timer=150}] run schedule function template:feral_repeat 0.1s replace
+    scoreboard players add @a[tag=user] feral.timer 1
+}
+
+function feral_rage_old{
+    say feral rage
+    scoreboard players set @a[tag=user] feral.timer 0
+    execute as @a[tag=user] run tag @s remove voluntary
+    execute as @e[type=item] run data modify entity @s PickupDelay set value 0
+        #execute as @e[nbt={HurtTime:10s},tag=!hover,tag=!user,team=!scrutinized,tag=!hurt] at @s rotated as @p run function template:apply_motion
+    execute as @a[tag=user] at @s rotated as @e[tag=!hover,tag=!user,distance=..5,limit=1] run function template:feral_apply_motion
+    execute as @a[tag=user] if entity @e[tag=!user] run schedule function template:feral_repeat 0.1s replace
+    execute as @s run tag @s remove werejixhold
+}
+
+function feral_repeat_old{
+    say feral repeat
+    #do user tp-ing here. "aimbot" happens here. need to tp the user in the respect of the enemy's x and z coords (not the y)
+
+    execute as @a[tag=user] run effect give @s haste 1 2 true
+    #execute as @a[tag=user] at @s rotated as @e[tag=!user,type=!armor_stand,distance=..5,tag=!hover] run tp @s ~ ~ ~ ~ ~
+    execute as @e[tag=!user,type=!armor_stand,tag=!hover,limit=1] at @s run tp @a[tag=user] ^ ^0.1 ^5 ~180 ~
+    execute as @e[tag=!user,type=!armor_stand,tag=!hover,limit=1] at @s run data modify entity @s Rotation[1] set value -40f
+    execute as @e[tag=user,scores={feral.timer=..30}] unless entity @a[scores={feral.timer=30}] run schedule function template:feral_repeat 0.1s replace
+    scoreboard players add @a[tag=user] feral.timer 1
+}
+
+
+
+function werejixhold{
+    say tagged werejixhold
+    tag @s add werejixhold
+}
+
+
+
+function stimulus{
+    say stimulus
+    execute as @a[tag=user] run tag @s remove voluntary
+    #playsound minecraft:entity.spider.hurt ambient @a ~ ~ ~ 2 0
+    #execute as @e[tag=!user,distance=..3] rotated as @a[tag=user] facing entity @a[tag=user] eyes at @s run tp @s ^ ^0.1 ^0.3
+    execute as @e[tag=!user,distance=..5] run effect give @s wither 1 1 true
+    
+    execute as @a[tag=user] run effect give @s speed 1 5 true
+    execute as @a[tag=user] run effect give @s invisibility 1 0 true
+    execute as @a[tag=user] run particle ash ~ ~ ~ 0.5 1 0.5 0 300
+    execute as @a[tag=user] run particle dust 0.62 0.62 0.145 1 ~ ~ ~ 0.2 1 0.2 0 50
+    execute as @e[nbt={HurtTime:10s},type=!armor_stand,tag=!user,team=!scrutinized,tag=!hurt] at @s rotated as @p run function template:apply_motion
+
+    #execute as @a[tag=user] 
+    execute as @a[tag=user,scores={sneak=0}] run tag @s add voluntary
+    
+}
+
+function hovering_armor{
+    scoreboard players add @e[tag=user] werejix.timer 1
+    execute as @a[tag=user,scores={werejix.timer=..20}] run tag @s add voluntary
+    
+    #execute as @a[tag=user] at @s unless entity @e[tag=hover] run summon armor_stand ^ ^ ^1 {NoGravity:1b,Tags:["hover"],Health:20}
+    execute as @a[tag=user] at @s unless entity @e[tag=hover] unless entity @a[tag=user,nbt=!{SelectedItem:{id:"minecraft:carrot_on_a_stick",tag:{CustomModelData:2002003}}}] run summon ghast ^ ^ ^3 {NoGravity:1b,Tags:["hover"],NoAI:1b,Silent:1b,Attributes:[{Name:"generic.armor",Base:9999f},{Name:"generic.knockback_resistance",Base:1000f},{Name:"generic.max_health",Base:500f}],ActiveEffects:[{Id:14,Amplifier:0,Duration:1000000,ShowParticles:false},{Id:11,Amplifier:255,Duration:1000000,ShowParticles:false}]}
+    execute as @e[tag=hover] rotated as @a[tag=user] at @a[tag=user] positioned ^ ^ ^4 run tp @s ~ ~ ~ ~-40 ~
+
+    execute as @a[tag=voluntary] if entity @a[tag=voluntary,nbt=!{SelectedItem:{id:"minecraft:carrot_on_a_stick",tag:{CustomModelData:2002003}}}] run schedule function template:voluntary 1s replace
+    
+    execute as @e[tag=user,scores={werejix.timer=..20}] run schedule function template:hovering_armor 0.1s replace
+    execute as @e[tag=!user,distance=..5] run team join noCollision @s
+    #execute as @e[tag=ragged] run effect give @s wither 1 1 true
+    execute as @e[tag=user,scores={werejix.timer=20..}] run scoreboard players set @s werejix.timer 0
+    execute as @a[tag=user] if entity @a[tag=user,nbt=!{SelectedItem:{id:"minecraft:carrot_on_a_stick",tag:{CustomModelData:2002003}}}] run function template:disappear
+}
+
+function voluntary{
+    say voluntary
+    execute as @a[tag=voluntary] run effect give @s wither 1 1 true
+    execute as @a[tag=voluntary] run schedule function template:voluntary 1s replace
+
+}
+
+function disappear{
+    execute as @e[tag=hover] run tp @s ~ ~-200 ~
+    execute as @e[tag=hover] run kill @s
+    execute as @a[tag=user] run scoreboard players set @s werejix.timer 0
+    execute as @a[tag=user] run tag @s remove voluntary
+}
+
+function ragged{
+    say ragged
+    stopsound @a[tag=user] player minecraft:entity.player.attack.strong
+    stopsound @a[tag=user] player minecraft:entity.player.attack.crit
+    stopsound @a[tag=user] player minecraft:entity.player.attack.nodamage
+    stopsound @a[tag=user] player minecraft:entity.player.attack.weak
+
+    #/execute as @e[type=zombie] at @s rotated as @p run function template:apply_motion
+
+    #idea: do facing an armorstand that i have in the back?
+
+    #playsound entity.wither.shoot ambient @a ~ ~ ~ 0.7 2
+    #playsound entity.player.attack.sweep ambient @a ~ ~ ~ 1 2
+    execute as @a[tag=user] unless entity @s[scores={feral.timer=..150}] run playsound entity.wither.shoot ambient @a ~ ~ ~ 1 2
+    execute as @a[tag=user] unless entity @s[scores={feral.timer=..150}] run playsound entity.player.attack.sweep ambient @a ~ ~ ~ 1 2
+
+    execute as @a[tag=user] unless entity @s[scores={feral.timer=150..}] run playsound entity.ender_dragon.growl ambient @a ~ ~ ~ 100 2
+ 
+    
+    #playsound minecraft:entity.iron_golem.death ambient @a ~ ~ ~ 200 2
+    #playsound minecraft:entity ambient @a ~ ~ ~ 200 2
+
+    
+    scoreboard players add @a[tag=user] werejix.ragged.attacked 1
+    execute as @e[tag=hover] if entity @a[tag=user,scores={werejix.ragged.attacked=1}] rotated as @a[tag=user] positioned ^ ^ ^4 run tp @s ~ ~ ~ ~25 ~
+    execute as @e[tag=hover] unless entity @a[scores={feral.timer=..150}] at @s positioned ^ ^2 ^-4 run function template:werejix_claw2
+    execute as @e[tag=hover] unless entity @a[scores={feral.timer=..150}] at @s positioned ^1 ^2 ^-4 run function template:werejix_claw2
+    execute as @e[tag=hover] unless entity @a[scores={feral.timer=..150}] at @s positioned ^-1 ^2 ^-4 run function template:werejix_claw2
+
+    execute as @e[tag=hover] unless entity @a[scores={feral.timer=150..}] at @s positioned ^ ^2 ^-4 run function template:werejix_claw3
+    execute as @e[tag=hover] unless entity @a[scores={feral.timer=150..}] at @s positioned ^1 ^2 ^-4 run function template:werejix_claw3
+    execute as @e[tag=hover] unless entity @a[scores={feral.timer=150..}] at @s positioned ^-1 ^2 ^-4 run function template:werejix_claw3
+
+   # execute as @e[tag=!user,distance=..4] at @s run effect give @s minecraft:instant_health 1 1 true
+        #execute as @e[nbt={HurtTime:10s},type=!armor_stand,tag=!user,team=!scrutinized,tag=!hurt] at @s rotated as @p run function template:apply_motion
+
+    execute as @e[tag=!user,distance=..5,type=!armor_stand,team=!scrutinized,tag=!hurt,tag=!hover] at @s run function template:ragged_effect
+    execute as @e[tag=!user,distance=..4] at @s run tag @s add ragged
+
+    scoreboard players set @a werejix.ragged 0
+    execute as @a[tag=user,scores={werejix.ragged.attacked=2..}] run scoreboard players set @a[tag=user] werejix.ragged.attacked 0
+}
+
+function ragged_effect{
+    execute as @s run effect give @s minecraft:wither 1 1 true
+    execute as @s run effect give @s minecraft:instant_damage 1 1 true
+    execute as @s run effect give @s minecraft:instant_health 1 1 true
+    execute as @s at @s rotated as @p run function template:apply_motion
 }
 
 function putrefaction{
@@ -95,6 +307,11 @@ function putre_repeat{
     execute as @e[tag=user,scores={putre_timer=11}] run playsound minecraft:entity.zombie.break_wooden_door ambient @a ~ ~ ~ 100 0
     execute as @e[tag=user,scores={putre_timer=11}] at @s run particle block lime_terracotta ~ ~ ~ 10 1 10 0 2000
     execute as @e[tag=user,scores={putre_timer=11}] at @s run particle dust 0.259 0.427 0.208 1 ~ ~ ~ 10 0 10 0 1000
+
+    execute if entity @a[tag=user,scores={putre_timer=11}] as @e[distance=..30,type=!armor_stand,tag=!user,team=!scrutinized,tag=!hurt] at @s rotated as @p run function template:apply_motion
+    
+    #execute as @e[nbt={HurtTime:10s},type=!armor_stand,tag=!user,team=!scrutinized,tag=!hurt] at @s rotated as @p run function template:apply_motion
+
     #execute as @e[tag=user,scores={putre_timer=11}] at @s run particle  ~ ~ ~ 5 0 5 0 300
     execute as @a[tag=user] if entity @a[tag=user,scores={putre_timer=11}] at @a[tag=user] run summon armor_stand ~ ~ ~ {Tags:["putre2"],Invisible:1b} 
     execute as @a[tag=user] if entity @a[tag=user,scores={putre_timer=11}] at @a[tag=user] run summon armor_stand ~ ~ ~ {Tags:["putre3"],Invisible:1b} 
@@ -257,9 +474,12 @@ function lingering{
     execute as @e[tag=skulls5] at @s if entity @a[tag=user,scores={skulls_timer=..30}] facing entity @e[limit=1,distance=..30,type=!armor_stand,tag=!user,sort=nearest] eyes run tp @s ^ ^0.1 ^1
     execute as @e[tag=skulls5] at @s if entity @a[tag=user,scores={skulls_timer=30..40}] facing entity @e[limit=1,distance=..30,type=!armor_stand,tag=!user] eyes run tp @s ^1 ^ ^1
 
-    execute as @e[tag=skulls2] at @s facing entity @e[tag=skulls] eyes run tp @e[distance=..5,type=!armor_stand,tag=!user] ^ ^0.5 ^-2
-    execute as @e[tag=skulls4] at @s facing entity @e[tag=skulls] eyes run tp @e[distance=..5,type=!armor_stand,tag=!user] ^ ^0.5 ^-2
-    execute as @e[tag=skulls6] at @s facing entity @e[tag=skulls] eyes run tp @e[distance=..5,type=!armor_stand,tag=!user] ^ ^0.5 ^-2
+    # execute as @e[tag=skulls2] at @s facing entity @e[tag=skulls] eyes run tp @e[distance=..5,type=!armor_stand,tag=!user] ^ ^0.5 ^-2
+    # execute as @e[tag=skulls4] at @s facing entity @e[tag=skulls] eyes run tp @e[distance=..5,type=!armor_stand,tag=!user] ^ ^0.5 ^-2
+    # execute as @e[tag=skulls6] at @s facing entity @e[tag=skulls] eyes run tp @e[distance=..5,type=!armor_stand,tag=!user] ^ ^0.5 ^-2
+
+    execute as @e[nbt={HurtTime:10s},type=!armor_stand,tag=!user,team=!scrutinized,tag=!hurt] at @s rotated as @p run function template:apply_motion
+    #execute as @e[distance=..7,tag=!hover,tag=!user] at @s rotated as @p run function template:apply_motion
 
     execute as @e[tag=skulls2] at @s facing entity @e[tag=skulls] eyes run effect give @e[tag=!skulls2,tag=!user,tag=!skulls,distance=..6] wither 1 7 true
     execute as @e[tag=skulls2] at @s facing entity @e[tag=skulls] eyes run effect give @e[tag=!skulls2,tag=!user,tag=!skulls,distance=..6] poison 1 7 false
@@ -276,6 +496,7 @@ function lingering{
     execute as @e[tag=user] at @s if entity @a[tag=user,scores={skulls_timer=40..}] run kill @e[tag=skulls4]
     execute as @e[tag=user] at @s if entity @a[tag=user,scores={skulls_timer=40..}] run kill @e[tag=skulls5]
     execute as @e[tag=user] at @s if entity @a[tag=user,scores={skulls_timer=40..}] run kill @e[tag=skulls6]
+    execute as @e[tag=user] at @s if entity @a[tag=user,scores={skulls_timer=40..}] run scoreboard players set @s xyneth.skulls_clicked 0
     execute as @e[tag=user] at @s if entity @a[tag=user,scores={skulls_timer=40..}] run scoreboard players set @a[tag=user] skulls_timer 0 
     execute at @e[tag=skulls2,limit=1] run playsound entity.zombie.hurt ambient @a[tag=user] ~ ~ ~ 1 0
 
@@ -307,7 +528,6 @@ function visceral5{
     
    # tag @e[type=skeleton,distance=..1] add vis 
     tag @e[type=armor_stand,distance=..1] add vis 
-    #effect give @e[tag=vis] minecraft:invisibility 10 0 true
     execute as @s store result score @s visceral.rot1 run data get entity @s Rotation[0] 1
     execute as @s store result score @s visceral.rot2 run data get entity @s Rotation[1] 1
 
@@ -315,21 +535,18 @@ function visceral5{
     execute store result storage minecraft:rot2 rot2 float 1 run scoreboard players get @a[tag=user,limit=1] visceral.rot2
 
     #execute as @e[tag=!user] positioned ~-0.99 ~-0.99 ~-0.99 if entity @s[distance=..7] run effect give @s instant_damage 1 1 true
-    execute as @e[tag=!user] positioned ~-0.99 ~-0.99 ~-0.99 if entity @s[distance=..7] run effect give @s wither 1 1 true
 
-
+    #execute as @e[tag=!user] positioned ~-0.99 ~-0.99 ~-0.99 if entity @s[distance=..7] run effect give @s wither 1 1 true
+    execute as @e[distance=..7,tag=!hover,tag=!user] positioned ~-0.99 ~-0.99 ~-0.99 at @s rotated as @p run function template:visceral_effect
+    #execute as @e[distance=..7,tag=!hover,tag=!user] at @s rotated as @p run function template:apply_motion
     #execute as @e[tag=!user,type=wither] at @s positioned ~-0.99 ~-0.99 ~-0.99 if entity @s[distance=..7] run summon potion ^ ^2 ^ {Item:{id:"minecraft:splash_potion",Count:1b,tag:{Potion:"minecraft:healing"}}}
-
-
-    #execute as @e[type=wither] at @s run summon potion ~ ~ ~ {Item:{id:"minecraft:splash_potion",Count:1b,tag:{Potion:"minecraft:healing"}}}
-        #execute as @s store result entity @s Health float 1 run scoreboard players remove @s health 2
-
 
     execute as @e[tag=!user,type=!armor_stand] positioned ~-0.99 ~-0.99 ~-0.99 if entity @s[distance=..7] store result entity @s Health float 1 run scoreboard players remove @s health 18
 
     #execute as @e[tag=!user,tag=!vis] if entity @s[distance=..7] facing entity @a[tag=user] feet at @s run tp @s ^ ^1.6 ^1
    # execute as @e[tag=!user] at @s if entity @s[distance=..2] facing entity @a[tag=user] eyes run tp @e[tag=!user,distance=..2,tag=!vis] ^ ^1.5 ^-2
     #format : execute as @e[tag=skulls2] at @s facing entity @e[tag=skulls] eyes run tp @e[tag=!skulls2,tag=!user,tag=!skulls,distance=..3] ^ ^1 ^-2
+    
 
     data modify entity @e[limit=1,tag=vis] Rotation[0] set from storage minecraft:rot1 rot1
     data modify entity @e[limit=1,tag=vis] Rotation[1] set from storage minecraft:rot2 rot2
@@ -339,6 +556,11 @@ function visceral5{
 
     scoreboard players set @s shakal.visceral 0
 
+}
+
+function visceral_effect{
+    effect give @s wither 1 1 true
+    execute run function template:apply_motion
 }
 
 function timer2{
@@ -444,7 +666,7 @@ function exsan_sound{
     # execute as @e[tag=user] at @s facing entity @a[tag=user] eyes if entity @a[tag=user,scores={exsan.sound=32}] run effect give @s saturation 1 1
 
 
-    execute as @e[tag=!user] at @s facing entity @a[tag=user] eyes if entity @a[tag=user,scores={exsan.sound=4..60}] run effect give @s wither 1 1
+    execute as @e[tag=!user] at @s facing entity @a[tag=user] eyes if entity @a[tag=user,scores={exsan.sound=4..60}] run effect give @s wither 1 10
         # execute as @e[tag=user] at @s facing entity @a[tag=user] eyes if entity @a[tag=user,scores={exsan.sound=4}] run effect give @s instant_health 1 1
     execute as @e[tag=user] at @s facing entity @a[tag=user] eyes if entity @a[tag=user,scores={exsan.sound=4..60}] run effect give @s saturation 1 0 true
     execute as @e[tag=user] at @s facing entity @a[tag=user] eyes if entity @a[tag=user,scores={exsan.sound=4..60}] run effect give @s instant_health 1 0 true
@@ -543,6 +765,15 @@ function scrutinize_effect{
 
 function removegravity{
     execute as @e[team=scrutinized] run data modify entity @s NoGravity set value 0b
+    #execute as @e[team=scrutinized] run team leave @s
+    execute as @e[team=scrutinized] run effect clear @s
+    execute as @e[team=scrutinized] run schedule function template:remove_team 1.0s append
+
+}
+
+function remove_team{
+    execute as @e[team=scrutinized] run team leave @s
+    #execute as @e[team=scrutinized] run effect clear @s
 }
 
 function getshakal{
@@ -558,9 +789,19 @@ function getxyneth{
     playsound entity.wither.spawn hostile @s ~ ~ ~ 50 0
     playsound entity.wither.spawn voice @a ~ ~ ~ 50 0
     execute as @s at @s run playsound entity.wither.spawn ambient @s ~ ~ ~ 50 0
-    particle dust 0 0 0 1 ~ ~ ~ 7 7 7 0.0001 400 normal 
+    particle block slime_block ~ ~ ~ 7 7 7 0 400
     kill @e[type=item,distance=..3]
-    summon item ~ ~ ~ 
+    summon item ~ ~ ~ {HasVisualFire:0b,Item:{id:"minecraft:carrot_on_a_stick",Count:1b,tag:{display:{Name:'{"text":"Xyneth","color":"green","italic":false}',Lore:['{"text":"An agent of annihilation. Even in","color":"gray","italic":false}','{"text":"its dormant state, its corruption","color":"gray","italic":false}','{"text":"will spread uncontrollably.","color":"gray","italic":false}']},Unbreakable:1b,Damage:20,CustomModelData:2002002,AttributeModifiers:[{AttributeName:"generic.max_health",Name:"generic.max_health",Amount:100,Operation:0,UUID:[I;826460782,-227521590,-1495538476,-824830141],Slot:"mainhand"},{AttributeName:"generic.attack_damage",Name:"generic.attack_damage",Amount:20,Operation:0,UUID:[I;577997057,1978287921,-1250132814,1697010659],Slot:"mainhand"},{AttributeName:"generic.attack_speed",Name:"generic.attack_speed",Amount:1000,Operation:0,UUID:[I;-671632160,2101038285,-1473843317,1945992613],Slot:"mainhand"},{AttributeName:"generic.knockback_resistance",Name:"generic.knockback_resistance",Amount:10,Operation:0,UUID:[I;-1174290593,1596015795,-1464806681,-1557675637],Slot:"mainhand"},{AttributeName:"generic.armor",Name:"generic.armor",Amount:50,Operation:0,UUID:[I;-42451081,727665850,-1132277563,-1187387884],Slot:"mainhand"}]}}}
+}
+
+function getwerejix{
+    playsound entity.wither.spawn hostile @s ~ ~ ~ 50 0
+    playsound entity.wither.spawn voice @a ~ ~ ~ 50 0
+    execute as @s at @s run playsound entity.wither.spawn ambient @s ~ ~ ~ 50 0
+    particle dust 0.647 0.647 0.647 1 ~ ~ ~ 7 7 7 0 200
+    particle dust 0.773 0.741 0.196 1 ~ ~ ~ 7 7 7 0 200
+    kill @e[type=item,distance=..3]
+    summon item ~ ~ ~ {HasVisualFire:0b,Item:{id:"minecraft:carrot_on_a_stick",Count:1b,tag:{display:{Name:'{"text":"Werejix","color":"yellow","italic":false}',Lore:['{"text":"The ragged claws of Heletha.","color":"gray","italic":false}','{"text":"It constantly gnaws at the user,","color":"gray","italic":false}','{"text":"inflicting pain only a few can","color":"gray","italic":false}','{"text":"tolerate.","color":"gray","italic":false}']},Unbreakable:1b,CustomModelData:2002003,AttributeModifiers:[{AttributeName:"generic.attack_damage",Name:"generic.attack_damage",Amount:4,Operation:0,UUID:[I;533583803,-2055651002,-1289359585,1869929134],Slot:"mainhand"},{AttributeName:"generic.attack_speed",Name:"generic.attack_speed",Amount:1000,Operation:0,UUID:[I;391752542,1914391404,-1964384777,-924409513],Slot:"mainhand"},{AttributeName:"generic.knockback_resistance",Name:"generic.knockback_resistance",Amount:10,Operation:0,UUID:[I;-1029750626,-2015933745,-1129285842,585732077],Slot:"mainhand"},{AttributeName:"generic.armor",Name:"generic.armor",Amount:1,Operation:0,UUID:[I;-380368874,187845732,-1498609571,-810857910],Slot:"mainhand"},{AttributeName:"generic.movement_speed",Name:"generic.movement_speed",Amount:0.1,Operation:0,UUID:[I;-138625383,1014583265,-1133456409,687921779],Slot:"mainhand"}]}}}
 }
 
 

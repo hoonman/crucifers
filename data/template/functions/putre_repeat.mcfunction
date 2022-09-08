@@ -6,6 +6,7 @@ execute as @e[tag=user,scores={putre_timer=..11}] at @s run playsound minecraft:
 execute as @e[tag=user,scores={putre_timer=11}] run playsound minecraft:entity.zombie.break_wooden_door ambient @a ~ ~ ~ 100 0
 execute as @e[tag=user,scores={putre_timer=11}] at @s run particle block lime_terracotta ~ ~ ~ 10 1 10 0 2000
 execute as @e[tag=user,scores={putre_timer=11}] at @s run particle dust 0.259 0.427 0.208 1 ~ ~ ~ 10 0 10 0 1000
+execute if entity @a[tag=user,scores={putre_timer=11}] as @e[distance=..30,type=!armor_stand,tag=!user,team=!scrutinized,tag=!hurt] at @s rotated as @p run function template:apply_motion
 execute as @a[tag=user] if entity @a[tag=user,scores={putre_timer=11}] at @a[tag=user] run summon armor_stand ~ ~ ~ {Tags:["putre2"],Invisible:1b}
 execute as @a[tag=user] if entity @a[tag=user,scores={putre_timer=11}] at @a[tag=user] run summon armor_stand ~ ~ ~ {Tags:["putre3"],Invisible:1b}
 execute as @a[tag=user] if entity @a[tag=user,scores={putre_timer=11}] at @a[tag=user] run summon armor_stand ~ ~ ~ {Tags:["putre4"],Invisible:1b}

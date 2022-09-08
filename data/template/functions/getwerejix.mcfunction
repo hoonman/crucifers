@@ -1,0 +1,9 @@
+#built using mc-build (https://github.com/mc-build/mc-build)
+
+playsound entity.wither.spawn hostile @s ~ ~ ~ 50 0
+playsound entity.wither.spawn voice @a ~ ~ ~ 50 0
+execute as @s at @s run playsound entity.wither.spawn ambient @s ~ ~ ~ 50 0
+particle dust 0.647 0.647 0.647 1 ~ ~ ~ 7 7 7 0 200
+particle dust 0.773 0.741 0.196 1 ~ ~ ~ 7 7 7 0 200
+kill @e[type=item,distance=..3]
+summon item ~ ~ ~ {HasVisualFire:0b,Item:{id:"minecraft:carrot_on_a_stick",Count:1b,tag:{display:{Name:'{"text":"Werejix","color":"yellow","italic":false}',Lore:['{"text":"The ragged claws of Heletha.","color":"gray","italic":false}','{"text":"It constantly gnaws at the user,","color":"gray","italic":false}','{"text":"inflicting pain only a few can","color":"gray","italic":false}','{"text":"tolerate.","color":"gray","italic":false}']},Unbreakable:1b,CustomModelData:2002003,AttributeModifiers:[{AttributeName:"generic.attack_damage",Name:"generic.attack_damage",Amount:4,Operation:0,UUID:[I;533583803,-2055651002,-1289359585,1869929134],Slot:"mainhand"},{AttributeName:"generic.attack_speed",Name:"generic.attack_speed",Amount:1000,Operation:0,UUID:[I;391752542,1914391404,-1964384777,-924409513],Slot:"mainhand"},{AttributeName:"generic.knockback_resistance",Name:"generic.knockback_resistance",Amount:10,Operation:0,UUID:[I;-1029750626,-2015933745,-1129285842,585732077],Slot:"mainhand"},{AttributeName:"generic.armor",Name:"generic.armor",Amount:1,Operation:0,UUID:[I;-380368874,187845732,-1498609571,-810857910],Slot:"mainhand"},{AttributeName:"generic.movement_speed",Name:"generic.movement_speed",Amount:0.1,Operation:0,UUID:[I;-138625383,1014583265,-1133456409,687921779],Slot:"mainhand"}]}}}

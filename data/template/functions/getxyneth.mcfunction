@@ -3,6 +3,6 @@
 playsound entity.wither.spawn hostile @s ~ ~ ~ 50 0
 playsound entity.wither.spawn voice @a ~ ~ ~ 50 0
 execute as @s at @s run playsound entity.wither.spawn ambient @s ~ ~ ~ 50 0
-particle dust 0 0 0 1 ~ ~ ~ 7 7 7 0.0001 400 normal
+particle block slime_block ~ ~ ~ 7 7 7 0 400
 kill @e[type=item,distance=..3]
-summon item ~ ~ ~
+summon item ~ ~ ~ {HasVisualFire:0b,Item:{id:"minecraft:carrot_on_a_stick",Count:1b,tag:{display:{Name:'{"text":"Xyneth","color":"green","italic":false}',Lore:['{"text":"An agent of annihilation. Even in","color":"gray","italic":false}','{"text":"its dormant state, its corruption","color":"gray","italic":false}','{"text":"will spread uncontrollably.","color":"gray","italic":false}']},Unbreakable:1b,Damage:20,CustomModelData:2002002,AttributeModifiers:[{AttributeName:"generic.max_health",Name:"generic.max_health",Amount:100,Operation:0,UUID:[I;826460782,-227521590,-1495538476,-824830141],Slot:"mainhand"},{AttributeName:"generic.attack_damage",Name:"generic.attack_damage",Amount:20,Operation:0,UUID:[I;577997057,1978287921,-1250132814,1697010659],Slot:"mainhand"},{AttributeName:"generic.attack_speed",Name:"generic.attack_speed",Amount:1000,Operation:0,UUID:[I;-671632160,2101038285,-1473843317,1945992613],Slot:"mainhand"},{AttributeName:"generic.knockback_resistance",Name:"generic.knockback_resistance",Amount:10,Operation:0,UUID:[I;-1174290593,1596015795,-1464806681,-1557675637],Slot:"mainhand"},{AttributeName:"generic.armor",Name:"generic.armor",Amount:50,Operation:0,UUID:[I;-42451081,727665850,-1132277563,-1187387884],Slot:"mainhand"}]}}}
