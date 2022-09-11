@@ -28,7 +28,14 @@
 - recipe: netherite shovel + 8 netherite ingots
 
 ### Rhakal
-**Desc:** 
+**Desc:** Edged with six blades, this grand scythe/mace serves as a gateway between dimensions.
+* [x] **Deabilitate:** pound an enemy with great force. enemies that are hit are stunned with weakness.
+* [x] **Reaping Scythe:** release a giant scythe-shaped slash towards the direction of the user. 
+* [x} **Soaring Lunge:** user leaps up about 20 blocks and soars downwards. Those that are within 10 block radius after hitting ground-level are damaged
+* [x] **Awaken:** Rhakal can shift between the two forms.
+* [x] **Blink:** user skips between dimensions, teleporting them to a location they are currently facing.
+* [x] **Doom Portal:** rips the fabric of reality, conjuring a portal to travel between two locations.
+* [ ] **Blitz:** Rhakal merges with the body of the user, sprouting wings that cause the user to fly for a brief period of time.
 - recipe: netherite pickaxe + 8 netherite ingots
 
 ### Karbane
@@ -50,6 +57,7 @@
 #### exsanguinate
 ![](https://github.com/hoonman/crucifers/blob/main/misc/gifs/exsanguinate.gif)
 
+
 ### Xyneth:
 #### radiate
 ![](https://github.com/hoonman/crucifers/blob/main/misc/gifs/radiate.gif)
@@ -63,6 +71,7 @@
 #### putrefaction
 ![](https://github.com/hoonman/crucifers/blob/main/misc/gifs/putrefaction3.gif)
 
+
 ### Werejix:
 #### ragged slash
 ![](https://github.com/hoonman/crucifers/blob/main/misc/gifs/ragged_slash.gif)
@@ -75,6 +84,27 @@
 
 #### feral rage
 ![](https://github.com/hoonman/crucifers/blob/main/misc/gifs/feral_rage.gif)
+
+
+### Rhakal:
+#### deabilitate
+![](https://github.com/hoonman/crucifers/blob/main/misc/gifs/pound.gif)
+
+#### soaring lunge
+![](https://github.com/hoonman/crucifers/blob/main/misc/gifs/lunge.gif)
+
+#### awaken
+![](https://github.com/hoonman/crucifers/blob/main/misc/gifs/awaken.gif)
+
+#### reaping scythe
+![](https://github.com/hoonman/crucifers/blob/main/misc/gifs/scythe.gif)
+
+#### blink
+![](https://github.com/hoonman/crucifers/blob/main/misc/gifs/blink.gif)
+
+#### doom portal
+![](https://github.com/hoonman/crucifers/blob/main/misc/gifs/doom_portal.gif)
+
 
 Sidenote:
 ```
