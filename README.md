@@ -28,14 +28,14 @@
 - recipe: netherite shovel + 8 netherite ingots
 
 ### Rhakal
-**Desc:** Edged with six blades, this grand scythe/mace serves as a gateway between dimensions.
+**Desc:** A grand mace/scythe edged with six blades. It serves as a gateway between dimensions.
 * [x] **Deabilitate:** pound an enemy with great force. enemies that are hit are stunned with weakness.
-* [x] **Reaping Scythe:** release a giant scythe-shaped slash towards the direction of the user. 
-* [x} **Soaring Lunge:** user leaps up about 20 blocks and soars downwards. Those that are within 10 block radius after hitting ground-level are damaged
+* [x] **Reaping Scythe:** release a giant scythe-shaped slash towards the direction of where the user is currently facing.
+* [x] **Soaring Lunge:** user leaps up about 20 blocks and soars downwards. Those that are within 10 block radius after hitting ground-level are damaged
 * [x] **Awaken:** Rhakal can shift between the two forms.
 * [x] **Blink:** user skips between dimensions, teleporting them to a location they are currently facing.
 * [x] **Doom Portal:** rips the fabric of reality, conjuring a portal to travel between two locations.
-* [ ] **Blitz:** Rhakal merges with the body of the user, sprouting wings that cause the user to fly for a brief period of time.
+* [ ] **Blitz:** Rhakal merges with the body of the user, sprouting wings that cause the user to fly for a brief period of time. Entities that collide with the user while BLITZ is active are damaged.
 - recipe: netherite pickaxe + 8 netherite ingots
 
 ### Karbane
