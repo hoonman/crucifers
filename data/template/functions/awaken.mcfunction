@@ -1,0 +1,8 @@
+#built using mc-build (https://github.com/mc-build/mc-build)
+
+say awaken
+playsound minecraft:block.enchantment_table.use ambient @a ~ ~ ~ 1 2
+particle dust 0 0.698 0.996 1 ~ ~1 ~ 0.7 0 0.7 0 400
+item replace entity @s weapon with carrot_on_a_stick{CustomModelData:2002004,AttributeModifiers:[{AttributeName:"generic.armor",Amount:30,Slot:mainhand,Name:"generic.armor",UUID:[I;-12288,18974,185218,-37948]},{AttributeName:"generic.attack_damage",Amount:7,Slot:mainhand,Name:"generic.attack_damage",UUID:[I;-12288,19074,185218,-38148]},{AttributeName:"generic.attack_speed",Amount:1000,Slot:mainhand,Name:"generic.attack_speed",UUID:[I;-12288,19174,185218,-38348]},{AttributeName:"generic.knockback_resistance",Amount:100,Slot:mainhand,Name:"generic.knockback_resistance",UUID:[I;-12288,19274,185218,-38548]},{AttributeName:"generic.max_health",Amount:20.0,Slot:mainhand,Name:"generic.max_health",UUID:[I;-12288,19374,185218,-38748]}],display:{Name:'[{"text":"Rhakal","italic":false,"color":"aqua"}]',Lore:['[{"text":"Scythe form","italic":false,"color":"dark_gray"},{"text":"","italic":false,"color":"dark_purple"}]','[{"text":"A grand scythe edged with six","italic":false,"color":"gray"}]','[{"text":"blades. It serves as a gateway","italic":false,"color":"gray"}]','[{"text":"between dimensions.","italic":false,"color":"gray"}]']}}
+kill @e[type=item,limit=1,distance=..3]
+execute as @s run tag @s remove rhakalhold
