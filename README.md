@@ -107,12 +107,11 @@
 
 
 Sidenote:
-```
-Heletha is one of the seven tyrants of Zenos. She represents "lust" of the seven deadly sins. The idea is that, even in Heletha's death, these weapons are most sought after out of any in the world of Yuria due to the addictive power that they offer. 
-```
+* Crucifers are weapons with an evil consciousness within them. Only one of them can exist in the world (no duplicate can be forged or dropped from an enemy when there is already one owned by a player). After each season, these weapons go back to the wild from each player's inventories into random places/enemies where they can be found/dropped. When a player who wields a crucifer is killed, that crucifer is dropped only if there is keepInventory on. If a crucifer gets destroyed by cactus, it returns to the original spot where it was found in that season. These rules only apply to the crucifers
+* Heletha is one of the seven tyrants of Zenos. She represents "lust" of the seven deadly sins. The idea is that, even in Heletha's death, these weapons are most sought after out of any in the world of Yuria due to the addictive power that they offer. 
+
 Resources used:
-```
 1. kemo14331's particle converter: https://github.com/kemo14331/Particle-Converter/releases
 2. youtube tutorials 
 3. minecraft wiki page
-```
+
