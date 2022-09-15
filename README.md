@@ -39,7 +39,13 @@
 - recipe: netherite pickaxe + 8 netherite ingots
 
 ### Karbane
-**Desc:** 
+**Desc:** A ravaging entity gnashes its serrated teeth, growing impatient to be fed.
+* [x] **Piranha Blades:** Repeatedly harass enemies that are hit. 
+* [ ] **Manic Screech:** release psychotic screams that stagger enemies within a certain radius.
+* [x] **Dimorphism:** unending hunger has led karbane to be split in half. Each new half can use PIRANHA BLADES
+* [x] **Mawhook:** send a hook attached to chains that, once they hit an enemy, reels back the enemy to the user.
+* [x] **Spiraling Havoc:** user spins around in all directions, inflicting dmg to enemies around this ability.
+* [ ] **Deranged:** karbane gains free will. Its behavior will be unpredictable.
 - recipe: netherite hoe + 8 netherite ingots
 
 
@@ -104,6 +110,20 @@
 
 #### doom portal
 ![](https://github.com/hoonman/crucifers/blob/main/misc/gifs/doom_portal.gif)
+
+
+### Karbane:
+#### piranha blades
+![](https://github.com/hoonman/crucifers/blob/main/misc/gifs/piranha_blades.gif)
+
+#### dimorphism
+![](https://github.com/hoonman/crucifers/blob/main/misc/gifs/polymorph.gif)
+
+#### mawhook
+![](https://github.com/hoonman/crucifers/blob/main/misc/gifs/mawhook.gif)
+
+#### spiraling havoc
+![](https://github.com/hoonman/crucifers/blob/main/misc/gifs/havoc.gif)
 
 
 Sidenote:
