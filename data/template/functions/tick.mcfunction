@@ -36,4 +36,15 @@ execute as @a[scores={carrot.use2=1..,sneak=1..},nbt={SelectedItem:{id:"minecraf
 execute as @a[scores={sneak=0}] run scoreboard players set @s flight.timer 0
 execute as @a[scores={carrot.use=1..,sneak=1..},nbt={SelectedItem:{id:"minecraft:carrot_on_a_stick",tag:{CustomModelData:2002004}}}] unless entity @s[tag=scythe] at @s run function template:flight
 execute as @a if entity @a[tag=Air] run tag @a remove Air
+execute as @a[nbt={Inventory:[{Slot:-106b,tag:{ItemType:"karbane"}}]}] run function template:dual
+execute as @a[nbt={Inventory:[{Slot:-106b,tag:{ItemType:"head"}}]}] run function template:dual2
+execute as @a[tag=!mawhook,tag=!sneaking,scores={carrot.use=1..},nbt={SelectedItem:{id:"minecraft:carrot_on_a_stick",tag:{CustomModelData:2002005}}}] at @s run function template:hovering_piranha
+execute as @a[tag=!mawhook,scores={carrot.dmg=1..},nbt={SelectedItem:{id:"minecraft:carrot_on_a_stick",tag:{CustomModelData:2002005}}}] at @s run function template:piranha
+execute as @a[tag=!mawhook,tag=!sneaking,scores={carrot.use=1..},nbt={SelectedItem:{id:"minecraft:carrot_on_a_stick",tag:{CustomModelData:2002006}}}] at @s run function template:hovering_piranha2
+execute as @a[tag=!mawhook,scores={carrot.dmg=1..},nbt={SelectedItem:{id:"minecraft:carrot_on_a_stick",tag:{CustomModelData:2002006}}}] at @s run function template:piranha2
+execute as @a[tag=!mawhook,tag=!sneaking,scores={snowball.use=1..,sneak=0},nbt={SelectedItem:{id:"minecraft:carrot_on_a_stick",tag:{CustomModelData:2002006}}}] at @s run function template:piranha2
+execute as @a[scores={snowball.use=1..,sneak=1..},nbt={SelectedItem:{id:"minecraft:carrot_on_a_stick",tag:{CustomModelData:2002006}}}] at @s run function template:mawhook
+execute as @a[tag=mawhook,scores={snowball.use2=2..}] at @s run function template:mawhook_hook
+execute as @a[scores={sneak=1..},nbt={SelectedItem:{id:"minecraft:carrot_on_a_stick",tag:{CustomModelData:2002006}}}] at @s run function template:havoc
+execute as @a[scores={sneak=0},nbt={SelectedItem:{id:"minecraft:carrot_on_a_stick",tag:{CustomModelData:2002006}}}] at @s run scoreboard players set @s carrot.timer3 0
 execute as @a[scores={sneak=1..}] run scoreboard players set @s sneak 0

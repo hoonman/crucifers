@@ -7,7 +7,7 @@ execute at @a[tag=user] as @e[distance=..20,tag=!user] if entity @a[tag=user,sco
 execute as @e[tag=user] at @s facing entity @a[tag=user] eyes if entity @a[tag=user,scores={exsan.sound=4..60}] run effect give @s saturation 1 0 true
 execute as @e[tag=user] at @s facing entity @a[tag=user] eyes if entity @a[tag=user,scores={exsan.sound=4..60}] run effect give @s instant_health 1 0 true
 execute as @e[tag=user] at @s facing entity @a[tag=user] eyes if entity @a[tag=user,scores={exsan.sound=4..60}] store result entity @s Health float 1 run scoreboard players add @s health 1
-execute as @e[tag=!user,type=!armor_stand,distance=..20] at @s facing entity @a[tag=user] eyes if entity @a[tag=user,scores={exsan.sound=4..60}] store result entity @s Health float 1 run scoreboard players remove @s health 1
+execute at @a[tag=user] as @e[tag=!user,type=!armor_stand,distance=..20] facing entity @a[tag=user] eyes if entity @a[tag=user,scores={exsan.sound=4..60}] store result entity @s Health float 1 run scoreboard players remove @s health 1
 execute as @e[tag=exsan] at @s facing entity @a[tag=user] eyes if entity @a[tag=user,scores={exsan.sound=..60}] run tp @s ^ ^0.5 ^1
 execute as @e[tag=exsan] at @s run particle block redstone_wire ~ ~ ~ 0.1 0.1 0.1 0.001 30 force
 execute as @e[tag=user,scores={exsan.sound=60..}] run kill @e[tag=exsan]

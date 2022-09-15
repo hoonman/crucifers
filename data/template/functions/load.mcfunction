@@ -31,8 +31,12 @@ scoreboard objectives add carrot.use minecraft.used:minecraft.carrot_on_a_stick
 scoreboard objectives add carrot.use2 minecraft.used:minecraft.carrot_on_a_stick
 scoreboard objectives add carrot.dmg minecraft.custom:damage_dealt
 scoreboard objectives add carrot.timer dummy
+scoreboard objectives add carrot.timer2 dummy
+scoreboard objectives add carrot.timer3 dummy
 scoreboard objectives add rhakal.sweep dummy
 scoreboard objectives add flight.timer dummy
+scoreboard objectives add snowball.use minecraft.used:minecraft.snowball
+scoreboard objectives add snowball.use2 minecraft.used:minecraft.snowball
 scoreboard objectives add motion_x1 dummy
 scoreboard objectives add motion_y1 dummy
 scoreboard objectives add motion_z1 dummy

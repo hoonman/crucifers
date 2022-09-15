@@ -41,8 +41,13 @@ function load{
     scoreboard objectives add carrot.use2 minecraft.used:minecraft.carrot_on_a_stick
     scoreboard objectives add carrot.dmg minecraft.custom:damage_dealt
     scoreboard objectives add carrot.timer dummy
+    scoreboard objectives add carrot.timer2 dummy
+    scoreboard objectives add carrot.timer3 dummy
     scoreboard objectives add rhakal.sweep dummy
     scoreboard objectives add flight.timer dummy
+
+    scoreboard objectives add snowball.use minecraft.used:minecraft.snowball
+    scoreboard objectives add snowball.use2 minecraft.used:minecraft.snowball
 
 
     #scoreboard objectives add jump minecraft.custom:jump
@@ -127,11 +132,287 @@ function tick{
     execute as @a[scores={sneak=0}] run scoreboard players set @s flight.timer 0
 
     execute as @a[scores={carrot.use=1..,sneak=1..},nbt={SelectedItem:{id:"minecraft:carrot_on_a_stick",tag:{CustomModelData:2002004}}}] unless entity @s[tag=scythe] at @s run function template:flight
+
+    
     
     execute as @a if entity @a[tag=Air] run tag @a remove Air
 
+    execute as @a[nbt={Inventory:[{Slot:-106b,tag:{ItemType:"karbane"}}]}] run function template:dual
+    execute as @a[nbt={Inventory:[{Slot:-106b,tag:{ItemType:"head"}}]}] run function template:dual2
+
+    execute as @a[tag=!mawhook,tag=!sneaking,scores={carrot.use=1..},nbt={SelectedItem:{id:"minecraft:carrot_on_a_stick",tag:{CustomModelData:2002005}}}] at @s run function template:hovering_piranha
+    execute as @a[tag=!mawhook,scores={carrot.dmg=1..},nbt={SelectedItem:{id:"minecraft:carrot_on_a_stick",tag:{CustomModelData:2002005}}}] at @s run function template:piranha
+
+    execute as @a[tag=!mawhook,tag=!sneaking,scores={carrot.use=1..},nbt={SelectedItem:{id:"minecraft:carrot_on_a_stick",tag:{CustomModelData:2002006}}}] at @s run function template:hovering_piranha2
+    execute as @a[tag=!mawhook,scores={carrot.dmg=1..},nbt={SelectedItem:{id:"minecraft:carrot_on_a_stick",tag:{CustomModelData:2002006}}}] at @s run function template:piranha2
+
+    execute as @a[tag=!mawhook,tag=!sneaking,scores={snowball.use=1..,sneak=0},nbt={SelectedItem:{id:"minecraft:carrot_on_a_stick",tag:{CustomModelData:2002006}}}] at @s run function template:piranha2
+    execute as @a[scores={snowball.use=1..,sneak=1..},nbt={SelectedItem:{id:"minecraft:carrot_on_a_stick",tag:{CustomModelData:2002006}}}] at @s run function template:mawhook
+
+    execute as @a[tag=mawhook,scores={snowball.use2=2..}] at @s run function template:mawhook_hook
+    #execute as @a[scores={snowball.use=1..,sneak=1..},nbt={SelectedItem:{id:"minecraft:carrot_on_a_stick",tag:{CustomModelData:2002006}}}] at @s run function template:mawhook2
+   # execute as @a[scores={carrot.dmg=1..},nbt={SelectedItem:{id:"minecraft:carrot_on_a_stick",tag:{CustomModelData:2002006}}}] at @s run function template:piranha2
+
+    execute as @a[scores={sneak=1..},nbt={SelectedItem:{id:"minecraft:carrot_on_a_stick",tag:{CustomModelData:2002006}}}] at @s run function template:havoc
+    execute as @a[scores={sneak=0},nbt={SelectedItem:{id:"minecraft:carrot_on_a_stick",tag:{CustomModelData:2002006}}}] at @s run scoreboard players set @s carrot.timer3 0
+    
+
     execute as @a[scores={sneak=1..}] run scoreboard players set @s sneak 0
 
+}
+
+function havoc{
+    effect give @s speed 1 10 false
+    execute if entity @s[scores={carrot.timer3=120..}] run scoreboard players set @s carrot.timer3 0
+    execute if entity @s[scores={sneak=0}] run scoreboard players set @s carrot.timer3 0
+    scoreboard players add @s carrot.timer3 1
+
+    execute as @s[scores={carrot.timer3=50..}] at @s run function template:havoc_effect
+    execute as @s[scores={carrot.timer3=0}] at @s run playsound entity.wither.hurt block @a ~ ~ ~ 1 0
+    execute as @s[scores={carrot.timer3=10}] at @s run playsound entity.wither.hurt block @a ~ ~ ~ 1 0
+    execute as @s[scores={carrot.timer3=20}] at @s run playsound entity.wither.hurt block @a ~ ~ ~ 1 0
+    execute as @s[scores={carrot.timer3=30}] at @s run playsound entity.wither.hurt block @a ~ ~ ~ 1 0
+    execute as @s[scores={carrot.timer3=40}] at @s run playsound entity.wither.hurt block @a ~ ~ ~ 1 0
+    execute as @s[scores={carrot.timer3=50}] at @s run playsound entity.wither.hurt block @a ~ ~ ~ 1 0
+}
+
+
+function havoc_effect{
+    say spin
+   # tp @s ~ ~ ~ ~45 ~1
+    execute as @a[tag=user,scores={carrot.timer3=50..85}] at @s run tp @s ~ ~ ~ ~30 ~1
+    execute as @a[tag=user,scores={carrot.timer3=85..120}] at @s run tp @s ~ ~ ~ ~30 ~-1
+    execute at @a[tag=user] as @e[tag=!user,tag=!hover4,type=!armor_stand,distance=..6] if entity @a[tag=user,scores={carrot.timer3=50..120}] run function template:havoc_damage 
+    execute if entity @a[scores={sneak=0}] run scoreboard players set @s carrot.timer3 0
+    execute as @a[scores={carrot.timer3=50..120,sneak=1..}] at @s run schedule function template:havoc_effect 0.1s replace
+    execute as @e[tag=hover4] at @s positioned ^ ^2 ^-4 run function template:karbane_maw
+
+    execute as @a[tag=user] at @s run playsound entity.wither.hurt block @a ~ ~ ~ 1 2
+    execute as @a[tag=user] at @s run playsound entity.wither.shoot block @a ~ ~ ~ 0.5 2
+    #execute as @a[tag=user] at @s run playsound entity.player.breath ambient @a ~ ~ ~ 1 0
+    #use for deranged
+    #execute as @a[tag=user] at @s run playsound entity.blaze.ambient ambient @a ~ ~ ~ 1 0
+}
+
+function havoc_damage{
+    execute as @s at @s rotated as @p run function template:apply_motion_havoc
+    execute as @s at @s run effect give @s wither 1 1 false
+
+}
+function apply_motion_havoc{
+    say apply
+    execute store result score @s motion_x1 run data get entity @s Pos[0] 1000
+    execute store result score @s motion_y1 run data get entity @s Pos[1] 1000
+    execute store result score @s motion_z1 run data get entity @s Pos[2] 1000
+
+    tp @s ^ ^ ^0.1
+    execute store result score @s motion_x2 run data get entity @s Pos[0] 1000
+    execute store result score @s motion_y2 run data get entity @s Pos[1] 1000
+    execute store result score @s motion_z2 run data get entity @s Pos[2] 1000
+
+    #second becomes the "new"
+    execute store result entity @s Motion[0] double 0.005 run scoreboard players operation @s motion_x2 -= @s motion_x1
+    #execute store result entity @s Motion[1] double 0.01 run scoreboard players operation @s motion_y2 -= @s motion_y1
+    data modify entity @s Motion[1] set value 0.01
+    
+    execute store result entity @s Motion[2] double 0.005 run scoreboard players operation @s motion_z2 -= @s motion_z1
+
+    #tag @s add motion_added
+}
+function mawhook_hook{
+    say mawhook hook
+    scoreboard players set @s snowball.use2 0
+}
+
+function mawhook2{
+    say mawhook two 22222
+    execute as @s[scores={carrot.timer2=100..}] run schedule function template:mawhooke2 1s replace
+    execute as @e[tag=hover2,sort=furthest,limit=1] at @s run kill @s 
+    scoreboard players set @s snowball.use 0
+}
+
+function mawhook{
+    say mawhook
+    kill @e[type=snowball]
+    execute as @s run tag @s add sneaking
+    scoreboard players set @s carrot.timer2 0
+    kill @e[tag=hook]
+    kill @e[tag=hook2]
+
+    execute as @s run schedule function template:mawhook_timer 0.1s replace
+    execute as @s run tag @s remove sneaking
+    scoreboard players set @s sneak 0
+    scoreboard players set @s snowball.use 0
+
+}
+
+function mawhook_timer{
+    #tag @a[tag=user] add mawhook
+    #execute as @a run say mawhook timer
+    execute as @a[tag=user,scores={snowball.use=1..}] run kill @e[tag=hover2,limit=1,sort=furthest]
+    scoreboard players add @a[tag=user] carrot.timer2 1
+
+    execute as @a[tag=user] at @s unless entity @e[tag=hook] run summon armor_stand ~ ~ ~ {NoGravity:1b,Tags:["hook"],Invisible:1b}
+    execute as @e[tag=hook] at @s facing entity @e[distance=..20,limit=1,type=!armor_stand,tag=!user,sort=nearest,tag=!hover4,tag=!hover3] feet unless entity @e[distance=0,limit=1,type=!armor_stand,tag=!user,sort=nearest,tag=!hover4,tag=!hover3] run tp @s ^ ^ ^0.5 ~ ~
+    execute as @e[tag=hook] at @s if entity @a[scores={carrot.timer2=20..}] run kill @e[tag=hook2,sort=nearest,limit=1]
+    execute as @e[tag=hook] at @s facing entity @a[tag=user,scores={carrot.timer2=20..}] feet run tp @s ^ ^ ^0.01 ~ ~
+    execute as @e[type=!armor_stand,tag=!user,tag=!hover4,tag=!hover3,limit=1,sort=nearest] at @s facing entity @a[tag=user,scores={carrot.timer2=21..}] feet run tp @s ^ ^ ^0.5 ~ ~
+    execute as @e[tag=hook2] at @s facing entity @a[tag=user,scores={carrot.timer2=..100}] feet run tp @s ^ ^ ^0.01 ~ ~
+
+    execute as @a[tag=user,scores={carrot.timer2=..20}] at @e[tag=hook2,limit=1] run playsound entity.zombie.attack_iron_door ambient @a[tag=user] ~ ~ ~ 1 1
+    execute as @a[tag=user,scores={carrot.timer2=20}] at @e[tag=hook,limit=1] run playsound entity.zombie.attack_iron_door ambient @a[tag=user] ~ ~ ~ 1 0
+
+    execute as @e[tag=hook] at @s facing entity @e[distance=..20,limit=1,type=!armor_stand,tag=!user,sort=nearest,tag=!hover4,tag=!hover3] feet positioned ^ ^1 ^ unless entity @a[tag=user,scores={carrot.timer2=20..}] run function template:karbane_maw
+    execute as @e[tag=hook] at @s facing entity @e[distance=..20,limit=1,type=!armor_stand,tag=!user,sort=nearest,tag=!hover4,tag=!hover3] feet positioned ^ ^1 ^ unless entity @a[tag=user,distance=..1] unless entity @a[tag=user,scores={carrot.timer2=70..}] run particle witch ~ ~ ~ 0 0 0 0 1
+    #execute as @e[tag=hook2] at @s facing entity @e[distance=..20,limit=1,type=!armor_stand,tag=!user,sort=nearest,tag=!hover4,tag=!hover3] feet positioned ^ ^1 ^ run particle dust 0.153 0.153 0.153 1 ~ ~ ~ 0 0 0 0 100
+    execute as @e[tag=hook2] at @s facing entity @e[distance=..20,limit=1,type=!armor_stand,tag=!user,sort=nearest,tag=!hover4,tag=!hover3] feet positioned ^ ^1 ^ run particle witch ~ ~ ~ 0 0 0 0 5
+
+    execute as @e[tag=hook] at @s facing entity @e[distance=..20,limit=1,type=!armor_stand,tag=!user,sort=nearest,tag=!hover4,tag=!hover3] feet unless entity @e[distance=0,limit=1,type=!armor_stand,tag=!user,sort=nearest,tag=!hover4,tag=!hover3] unless entity @a[tag=user,scores={carrot.timer2=20..}] run summon armor_stand ~ ~ ~ {NoGravity:1b, Tags:["hook2"],Invisible:1b}
+
+    #execute as @e[tag=hook] if entity @e[tag=!user,type=!armor_stand,distance=..2] run effect give @e[tag=!user,type=!armor_stand,distance=..2] slowness 10 255 
+
+    execute as @e[tag=!user,type=!armor_stand,limit=1,sort=nearest] at @s if entity @e[tag=hook,distance=..2] run effect give @s slowness 10 30 false
+    #execute as @e[tag=!user,type=!armor_stand,limit=1,sort=nearest] at @e[tag=hook] run tp @s @e[tag=hook,limit=1]
+    #execute as @e[tag=!user,type=!armor_stand,limit=1,sort=nearest] at @s if entity @e[tag=hook,distance=..2] rotated as @a[tag=user] run tp @s @e[tag=hook,limit=1]
+    #execute as @e[tag=!user,type=!armor_stand,limit=1,sort=nearest] at @s if entity @a[tag=user,scores={carrot.timer2=20..}] facing entity @a[tag=user] eyes run tp @s ^ ^ ^1 ~ ~
+    execute as @e[tag=!user,type=!armor_stand,limit=1,sort=nearest] at @s if entity @e[tag=hook,distance=..2] run tp @s ~ ~ ~
+
+
+
+    #execute as @e[tag=hook2] at @s positioned ^ ^ ^ positioned as @a[tag=user] facing entity @a[tag=user] feet run tp @s ~ ~ ~ ~ ~ 
+    # execute if entity @a[scores={carrot.timer2=100..}] at @a[scores={carrot.timer2=100..}] as @e[tag=hover2,sort=furthest] run kill @s
+
+    # execute as @a[tag=user,scores={carrot.timer2=100..}] at @s facing entity @s eyes run tp @e[tag=hover] @a[tag=user,limit=1]
+
+    #execute as @a[scores={carrot.timer2=149}] unless entity @a[tag=user,nbt=!{SelectedItem:{id:"minecraft:carrot_on_a_stick",tag:{CustomModelData:2002006}}}] run tag @a[tag=user] remove mawhook
+    execute as @a[scores={carrot.timer2=..70}] unless entity @a[tag=user,nbt=!{SelectedItem:{id:"minecraft:carrot_on_a_stick",tag:{CustomModelData:2002006}}}] unless entity @e[distance=0,type=!armor_stand,tag=!user,tag=!hover4] run schedule function template:mawhook_timer 1t replace
+
+    
+
+    
+}
+
+
+
+function hovering_piranha{
+    scoreboard players add @s carrot.timer 1
+    scoreboard players add @e[tag=piran_stand] carrot.timer 1
+    execute as @s at @s unless entity @e[tag=hover3] unless entity @s[nbt=!{SelectedItem:{id:"minecraft:carrot_on_a_stick",tag:{CustomModelData:2002005}}}] run summon ghast ^ ^ ^3 {NoGravity:1b,Tags:["hover3"],NoAI:1b,Silent:1b,Attributes:[{Name:"generic.armor",Base:9999f},{Name:"generic.knockback_resistance",Base:1000f},{Name:"generic.max_health",Base:500f}],ActiveEffects:[{Id:14,Amplifier:0,Duration:1000000,ShowParticles:false},{Id:11,Amplifier:255,Duration:1000000,ShowParticles:false}]}
+
+    #execute as @s at @s unless entity @e[tag=piran_stand] run summon armor_stand ^ ^ ^3 {NoGravity:1b,Tags:["piran_stand"]}
+    execute as @e[tag=piran_stand] at @s if entity @e[tag=!user,distance=..5] facing entity @e[limit=1,distance=..5,type=!armor_stand,tag=!user,tag=!hover3,sort=nearest] feet run tp @s ^0.5 ^ ^0.5 
+    execute as @e[tag=hover3] rotated as @a[tag=user] at @a[tag=user] positioned ^ ^ ^4 run tp @s ~ ~ ~ ~-10 ~
+    execute as @e[tag=piran_stand] at @s run effect give @e[type=!armor_stand,tag=!user,tag=!hover3,distance=..1] wither 1 1 true
+
+    execute as @e[nbt={HurtTime:10s},type=!armor_stand,tag=!user,team=!scrutinized,tag=!hurt,tag=!hover3] at @s rotated as @p run function template:apply_motion
+    execute as @e[tag=user,scores={carrot.timer=..20}] run schedule function template:hovering_piranha 0.1s replace
+    execute as @e[tag=piran_stand] at @s run particle dust 0.404 0.063 0.62 1 ~ ~1 ~ 0 0 0 0 100
+    execute as @e[tag=piran_stand] at @s run playsound entity.zombie.hurt ambient @a ~ ~ ~ 1 2
+    execute as @e[tag=!user,distance=..5] run team join noCollision @s
+    execute as @e[tag=user,scores={carrot.timer=60..}] run scoreboard players set @s carrot.timer 0
+   # execute as @e[tag=user,scores={carrot.timer=59}] run kill @e[tag=piran_stand]
+
+    execute as @e[tag=piran_stand,scores={carrot.timer=59},limit=1] run kill @e[tag=piran_stand,limit=1]
+    execute as @a[tag=user] if entity @a[tag=user,nbt=!{SelectedItem:{id:"minecraft:carrot_on_a_stick",tag:{CustomModelData:2002005}}}] if entity @e[tag=hover3] run function template:disappear_piranha
+}
+
+function apply_piranha{
+    execute as @s at @s rotated as @p run function template:apply_motion
+    execute as @s at @s run effect give @s wither 1 1 true
+}
+
+function disappear_piranha{
+    say disappear piranha
+    execute as @e[tag=hover3] run tp @s ~ ~-200 ~
+    execute as @e[tag=hover3] run kill @s
+    execute as @a[tag=user] run scoreboard players set @s carrot.timer 0
+}
+
+
+function piranha{
+    say piranha
+    scoreboard players set @s carrot.timer 0
+    
+    execute if entity @s[scores={carrot.timer=0}] run tp @e[tag=hover3] @s
+    execute as @s at @s if entity @e[distance=..5,tag=!user,tag=!hover3,type=!armor_stand] run summon armor_stand ^ ^ ^3 {NoGravity:1b,Tags:["piran_stand"],Invisible:1b}
+    #scoreboard players add @e[tag=piran_stand] carrot.timer 1
+    #execute as @s at @s run playsound entity.enderman.death ambient @a ~ ~ ~ 1 0
+    execute as @s at @s run playsound entity.zombie.hurt ambient @a ~ ~ ~ 1 2
+    execute as @s at @s run playsound entity.wither.shoot ambient @a ~ ~ ~ 0.3 1.5
+    execute as @e[tag=hover3] at @s positioned ^ ^2 ^ run function template:karbane_maw
+    scoreboard players set @s carrot.dmg 0
+}
+
+function piranha2{
+    say piranha2 2
+    execute if entity @s[scores={snowball.use=1}] as @s run tag @s add snowball_used
+
+    
+    kill @e[type=snowball]
+    scoreboard players set @s carrot.timer 0
+    
+    #execute if entity @s[scores={carrot.timer=0}] run tp @e[tag=hover4] @s
+    execute as @s at @s if entity @e[distance=..5,tag=!user,tag=!hover4,type=!armor_stand] run summon armor_stand ^ ^ ^3 {NoGravity:1b,Tags:["piran_stand"],Invisible:1b}
+    #scoreboard players add @e[tag=piran_stand] carrot.timer 1
+    #execute as @s at @s run playsound entity.enderman.death ambient @a ~ ~ ~ 1 0
+    execute as @s at @s run playsound entity.zombie.hurt ambient @a ~ ~ ~ 1 2
+    execute as @s at @s run playsound entity.wither.shoot ambient @a ~ ~ ~ 0.3 1.5
+    execute as @e[tag=hover4] at @s positioned ^ ^2 ^-4 run function template:karbane_maw
+    #execute as @e[tag=hover4] at @s positioned ^ ^2 ^ if entity @a[scores={snowball.use=1..}] run function template:karbane_maw
+    scoreboard players set @s carrot.dmg 0
+    scoreboard players set @s snowball.use 0
+}
+
+function hovering_piranha2{
+    scoreboard players add @s carrot.timer 1
+
+    scoreboard players add @e[tag=piran_stand] carrot.timer 1
+    execute as @s at @s unless entity @e[tag=hover4] unless entity @s[nbt=!{SelectedItem:{id:"minecraft:carrot_on_a_stick",tag:{CustomModelData:2002006}}}] run summon ghast ^ ^ ^3 {NoGravity:1b,Tags:["hover4"],NoAI:1b,Silent:1b,Attributes:[{Name:"generic.armor",Base:9999f},{Name:"generic.knockback_resistance",Base:1000f},{Name:"generic.max_health",Base:500f}],ActiveEffects:[{Id:14,Amplifier:0,Duration:1000000,ShowParticles:false},{Id:11,Amplifier:255,Duration:1000000,ShowParticles:false}]}
+    execute as @e[tag=piran_stand] at @s if entity @e[tag=!user,distance=..5] facing entity @e[limit=1,distance=..5,type=!armor_stand,tag=!user,tag=!hover4,sort=nearest] feet run tp @s ^0.5 ^ ^0.5 
+    execute as @e[tag=hover4] rotated as @a[tag=user] at @a[tag=user] positioned ^ ^ ^4 if entity @a[scores={snowball.use=1..}] run tp @s ~ ~ ~ ~30 ~
+    execute as @e[tag=hover4] rotated as @a[tag=user] at @a[tag=user] positioned ^ ^ ^4 if entity @a[scores={snowball.use=0}] run tp @s ~ ~ ~ ~-30 ~
+
+    #execute if entity @s[scores={snowball.use=0}] as @e[tag=hover4] at @s rotated as @a[tag=user] positioned ^-2 ^ ^ run tp @s ~ ~ ~ ~-40 ~
+
+
+    #execute as @e[tag=hover4] rotated as @a[tag=user] at @a[tag=user] positioned ^2 ^ ^ if entity @a[scores={snowball.use=1..}] run tp @s ~ ~ ~ ~30 ~
+    execute as @a[tag=snowball_used] run tag @s remove snowball_used
+
+    execute as @e[tag=piran_stand] at @s run effect give @e[type=!armor_stand,tag=!user,tag=!hover4,distance=..1] wither 1 1 true
+
+    execute as @e[nbt={HurtTime:10s},type=!armor_stand,tag=!user,team=!scrutinized,tag=!hurt,tag=!hover4] at @s rotated as @p run function template:apply_motion
+    execute as @e[tag=user,scores={carrot.timer=..20}] run schedule function template:hovering_piranha2 0.1s replace
+    execute as @e[tag=piran_stand] at @s run particle dust 0.404 0.063 0.62 1 ~ ~1 ~ 0 0 0 0 100
+    execute as @e[tag=piran_stand] at @s run playsound entity.zombie.hurt ambient @a ~ ~ ~ 1 2
+    execute as @e[tag=!user,distance=..5] run team join noCollision @s
+    execute as @e[tag=user,scores={carrot.timer=60..}] run scoreboard players set @s carrot.timer 0
+   # execute as @e[tag=user,scores={carrot.timer=59}] run kill @e[tag=piran_stand]
+
+    execute as @e[tag=piran_stand,scores={carrot.timer=59},limit=1] run kill @e[tag=piran_stand,limit=1]
+    execute as @a[tag=user] if entity @a[tag=user,nbt=!{SelectedItem:{id:"minecraft:carrot_on_a_stick",tag:{CustomModelData:2002006}}}] if entity @e[tag=hover4] run function template:disappear_piranha2
+}
+
+function disappear_piranha2{
+    say disappear piranha 2
+    execute as @e[tag=hover4] run tp @s ~ ~-200 ~
+    execute as @e[tag=hover4] run kill @s
+    execute as @a[tag=user] run scoreboard players set @s carrot.timer 0
+}
+
+function dual2{
+    say l dual2
+    execute as @p at @p run playsound entity.drowned.death ambient @s ~ ~ ~ 1 0
+    item replace entity @s weapon with carrot_on_a_stick{ItemType:"karbane",CustomModelData:2002005,Tags:[karbane],AttributeModifiers:[{AttributeName:"generic.armor",Amount:7,Slot:mainhand,Name:"generic.armor",UUID:[I;-122811,18131,81156,-36262]},{AttributeName:"generic.attack_speed",Amount:1000,Slot:mainhand,Name:"generic.attack_speed",UUID:[I;-122811,18231,81156,-36462]},{AttributeName:"generic.movement_speed",Amount:0.08,Slot:mainhand,Name:"generic.movement_speed",UUID:[I;-122811,18331,81156,-36662]},{AttributeName:"generic.knockback_resistance",Amount:100,Slot:mainhand,Name:"generic.knockback_resistance",UUID:[I;-122811,18431,81156,-36862]},{AttributeName:"generic.max_health",Amount:18,Slot:mainhand,Name:"generic.max_health",UUID:[I;-122811,18531,81156,-37062]},{AttributeName:"generic.attack_damage",Amount:9,Slot:mainhand,Name:"generic.attack_damage",UUID:[I;-122811,18631,81156,-37262]}],display:{Name:'[{"text":"Karbane","italic":false,"color":"light_purple"}]',Lore:['[{"text":"Dual wield","italic":false,"color":"dark_gray"},{"text":"","italic":false,"color":"dark_purple"}]','[{"text":"A ravaging entity gnashes its","italic":false,"color":"gray"}]','[{"text":"serrated teeth, growing impatient","italic":false,"color":"gray"}]','[{"text":"to be fed.","italic":false,"color":"gray"}]']}} 1
+
+    item replace entity @s weapon.offhand with air
+}
+
+function dual{
+    say dual
+    execute as @p at @p run playsound entity.drowned.death ambient @s ~ ~ ~ 1 0
+    item replace entity @s weapon with carrot_on_a_stick{ItemType:"head",CustomModelData:2002006,AttributeModifiers:[{AttributeName:"generic.attack_damage",Amount:4.5,Slot:mainhand,Name:"generic.attack_damage",UUID:[I;-122811,17670,7474,-35340]},{AttributeName:"generic.knockback_resistance",Amount:5,Slot:mainhand,Name:"generic.knockback_resistance",UUID:[I;-122811,17770,7474,-35540]},{AttributeName:"generic.movement_speed",Amount:0.04,Slot:mainhand,Name:"generic.movement_speed",UUID:[I;-122811,17870,7474,-35740]},{AttributeName:"generic.max_health",Amount:9,Slot:mainhand,Name:"generic.max_health",UUID:[I;-122811,17970,7474,-35940]},{AttributeName:"generic.armor",Amount:3.5,Slot:mainhand,Name:"generic.armor",UUID:[I;-122811,18070,7474,-36140]},{AttributeName:"generic.attack_speed",Amount:500,Slot:mainhand,Name:"generic.attack_speed",UUID:[I;-122811,18170,7474,-36340]}],display:{Name:'[{"text":"Head of Kaleos","italic":false,"color":"light_purple"}]',Lore:['[{"text":"Dual wield","italic":false,"color":"dark_gray"},{"text":"","italic":false,"color":"dark_purple"}]','[{"text":"A ravaging entity gnashes its","italic":false,"color":"gray"}]','[{"text":"serrated teeth, growing impatient","italic":false,"color":"gray"}]','[{"text":"to be fed.","italic":false,"color":"gray"}]']}} 1
+
+    item replace entity @s weapon.offhand with snowball{ItemType:"tail",CustomModelData:2002007,AttributeModifiers:[{AttributeName:"generic.attack_damage",Amount:4.5,Slot:offhand,Name:"generic.attack_damage",UUID:[I;-122811,40023,7516,-80046]},{AttributeName:"generic.knockback_resistance",Amount:5,Slot:offhand,Name:"generic.knockback_resistance",UUID:[I;-122811,40123,7516,-80246]},{AttributeName:"generic.movement_speed",Amount:0.04,Slot:offhand,Name:"generic.movement_speed",UUID:[I;-122811,40223,7516,-80446]},{AttributeName:"generic.max_health",Amount:9,Slot:offhand,Name:"generic.max_health",UUID:[I;-122811,40323,7516,-80646]},{AttributeName:"generic.armor",Amount:3.5,Slot:offhand,Name:"generic.armor",UUID:[I;-122811,40423,7516,-80846]},{AttributeName:"generic.attack_speed",Amount:500,Slot:offhand,Name:"generic.attack_speed",UUID:[I;-122811,40523,7516,-81046]}],display:{Name:'[{"text":"Tail of Kaleos","italic":false,"color":"light_purple"}]',Lore:['[{"text":"Dual wield","italic":false,"color":"dark_gray"},{"text":"","italic":false,"color":"dark_purple"}]','[{"text":"A ravaging entity gnashes its","italic":false,"color":"gray"},{"text":"","italic":false,"color":"dark_purple"}]','[{"text":"serrated teeth, growing impatient","italic":false,"color":"gray"},{"text":"","italic":false,"color":"dark_purple"}]','[{"text":"to be fed.","italic":false,"color":"gray"}]']}} 1
 }
 
 function apply_motion_rhakal{
@@ -232,13 +513,8 @@ function doom_portal{
     execute as @e[tag=portal] unless entity @e[tag=portal2] at @s rotated as @a[tag=user] facing entity @a[tag=user] eyes run particle dust 0 0 0 1 ~ ~ ~ 3 5 3 0 800
     execute as @e[tag=portal2] at @s rotated as @a[tag=user] facing entity @a[tag=user] eyes run particle dust 0 0 0 1 ~ ~ ~ 3 5 3 0 800
 
-    #execute as @e[tag=portal2,sort=furthest,limit=1] if entity @e[tag=portal2] run kill @s
-    #execute as @e[tag=portal] at @s rotated as @a[tag=user] run tp @s ~ ~ ~ ~ ~
     execute as @a[tag=user] run schedule function template:doom_repeat 0.1s replace
 
-    # execute as @e[tag=portal] at @s rotated as @a[tag=user] run tp @s ~ ~ ~ ~90 ~
-    # execute as @e[tag=portal] run data modify entity @s Motion[0] set value 90.0f
-    # execute as @e[tag=portal] at @s facing ^0.1 ^ ^ positioned as @s positioned ^ ^ ^ run function template:rhakal_portal
 
     execute as @e[tag=portal] at @s rotated as @a[tag=user] run tp @s ~ ~ ~ ~90 ~
     execute as @e[tag=portal] run data modify entity @s Motion[0] set value 90.0f
@@ -319,15 +595,31 @@ function blink{
 }
 
 function hovering_rhakal{
-    scoreboard players add @a[tag=user] carrot.use 1
-    execute as @s at @s unless entity @e[tag=hover2] unless entity @a[tag=user,nbt=!{SelectedItem:{id:"minecraft:carrot_on_a_stick",tag:{CustomModelData:2002004}}}] run summon ghast ^ ^ ^-1 {NoGravity:1b,Tags:["hover2"],NoAI:1b,Silent:1b,Attributes:[{Name:"generic.armor",Base:9999f},{Name:"generic.knockback_resistance",Base:1000f},{Name:"generic.max_health",Base:1024f}],ActiveEffects:[{Id:14,Amplifier:0,Duration:1000000,ShowParticles:false},{Id:11,Duration:10000,Amplifier:2,ShowParticles:0b}]}
-    #execute as @s at @s unless entity @e[tag=hover2] unless entity @a[tag=user,nbt=!{SelectedItem:{id:"minecraft:carrot_on_a_stick",tag:{CustomModelData:2002004}}}] run summon ghast ^ ^ ^-1 {NoAI:1b,Silent:1b,Tags:["hover2"],ActiveEffects:[{Id:11,Duration:10000,Amplifier:2,ShowParticles:0b},{Id:14,Duration:10000,Amplifier:0,ShowParticles:0b}],Attributes:[{Name:"generic.max_health",Base:1024f}]}
-    execute as @e[tag=hover2] rotated as @a[tag=user] at @a[tag=user] positioned ^ ^ ^4 run tp @s ~ ~ ~ ~-40 ~
+    # scoreboard players add @a[tag=user] carrot.use 1
+    # execute as @s at @s unless entity @e[tag=hover2] unless entity @a[tag=user,nbt=!{SelectedItem:{id:"minecraft:carrot_on_a_stick",tag:{CustomModelData:2002004}}}] run summon ghast ^ ^ ^-1 {NoGravity:1b,Tags:["hover2"],NoAI:1b,Silent:1b,Attributes:[{Name:"generic.armor",Base:9999f},{Name:"generic.knockback_resistance",Base:1000f},{Name:"generic.max_health",Base:1024f}],ActiveEffects:[{Id:14,Amplifier:0,Duration:1000000,ShowParticles:false},{Id:11,Duration:10000,Amplifier:2,ShowParticles:0b}]}
 
-    execute as @s[scores={carrot.use=..20}] run schedule function template:hovering_rhakal 0.1s replace
+    # execute as @e[tag=hover2] rotated as @a[tag=user] at @a[tag=user] positioned ^ ^ ^4 run tp @s ~ ~ ~ ~-40 ~
+
+    # execute as @s[scores={carrot.use=..20}] run schedule function template:hovering_rhakal 0.1s replace
+    # execute as @e[tag=!user,distance=..5] run team join noCollision @s
+    # execute as @a[tag=user,scores={carrot.use=20..}] run scoreboard players set @s carrot.use 0
+    # execute as @a[tag=user] if entity @a[tag=user,nbt=!{SelectedItem:{id:"minecraft:carrot_on_a_stick",tag:{CustomModelData:2002004}}}] run function template:disappear
+
+    scoreboard players add @s carrot.timer 1
+    execute as @s at @s unless entity @e[tag=hover2] unless entity @s[nbt=!{SelectedItem:{id:"minecraft:carrot_on_a_stick",tag:{CustomModelData:2002004}}}] run summon ghast ^ ^ ^3 {NoGravity:1b,Tags:["hover2"],NoAI:1b,Silent:1b,Attributes:[{Name:"generic.armor",Base:9999f},{Name:"generic.knockback_resistance",Base:1000f},{Name:"generic.max_health",Base:500f}],ActiveEffects:[{Id:14,Amplifier:0,Duration:1000000,ShowParticles:false},{Id:11,Amplifier:255,Duration:1000000,ShowParticles:false}]}
+    execute as @e[tag=hover2] rotated as @a[tag=user] at @a[tag=user] positioned ^ ^ ^4 run tp @s ~ ~ ~ ~-40 ~
+    execute as @e[tag=user,scores={carrot.timer=..20}] run schedule function template:hovering_rhakal 0.1s replace
     execute as @e[tag=!user,distance=..5] run team join noCollision @s
-    execute as @a[tag=user,scores={carrot.use=20..}] run scoreboard players set @s carrot.use 0
-    execute as @a[tag=user] if entity @a[tag=user,nbt=!{SelectedItem:{id:"minecraft:carrot_on_a_stick",tag:{CustomModelData:2002004}}}] run function template:disappear
+    execute as @e[tag=user,scores={carrot.timer=120..}] run scoreboard players set @s carrot.timer 0
+    execute as @a[tag=user] if entity @a[tag=user,nbt=!{SelectedItem:{id:"minecraft:carrot_on_a_stick",tag:{CustomModelData:2002004}}}] if entity @e[tag=hover2] run function template:disappear_rhakal
+}
+
+function disappear_rhakal{
+    say disappear rhakal
+    execute as @e[tag=hover2] run tp @s ~ ~-200 ~
+    execute as @e[tag=hover2] run kill @s
+    execute as @a[tag=user] run scoreboard players set @s carrot.timer 0
+
 }
 
 function scythe{
@@ -517,13 +809,14 @@ function hovering_armor{
     execute as @a[tag=user] at @s unless entity @e[tag=hover] unless entity @a[tag=user,nbt=!{SelectedItem:{id:"minecraft:carrot_on_a_stick",tag:{CustomModelData:2002003}}}] run summon ghast ^ ^ ^3 {NoGravity:1b,Tags:["hover"],NoAI:1b,Silent:1b,Attributes:[{Name:"generic.armor",Base:9999f},{Name:"generic.knockback_resistance",Base:1000f},{Name:"generic.max_health",Base:500f}],ActiveEffects:[{Id:14,Amplifier:0,Duration:1000000,ShowParticles:false},{Id:11,Amplifier:255,Duration:1000000,ShowParticles:false}]}
     execute as @e[tag=hover] rotated as @a[tag=user] at @a[tag=user] positioned ^ ^ ^4 run tp @s ~ ~ ~ ~-40 ~
 
-    execute as @a[tag=voluntary] if entity @a[tag=voluntary,nbt=!{SelectedItem:{id:"minecraft:carrot_on_a_stick",tag:{CustomModelData:2002003}}}] run schedule function template:voluntary 1s replace
+    #activate voluntary here: (broken rn)
+    #execute as @a[tag=voluntary] if entity @a[tag=voluntary,nbt=!{SelectedItem:{id:"minecraft:carrot_on_a_stick",tag:{CustomModelData:2002003}}}] run schedule function template:voluntary 1s replace
     
     execute as @e[tag=user,scores={werejix.timer=..20}] run schedule function template:hovering_armor 0.1s replace
     execute as @e[tag=!user,distance=..5] run team join noCollision @s
     #execute as @e[tag=ragged] run effect give @s wither 1 1 true
     execute as @e[tag=user,scores={werejix.timer=20..}] run scoreboard players set @s werejix.timer 0
-    execute as @a[tag=user] if entity @a[tag=user,nbt=!{SelectedItem:{id:"minecraft:carrot_on_a_stick",tag:{CustomModelData:2002003}}}] run function template:disappear
+    execute as @a[tag=user] if entity @a[tag=user,nbt=!{SelectedItem:{id:"minecraft:carrot_on_a_stick",tag:{CustomModelData:2002003}}}] if entity @e[tag=hover] run function template:disappear
 }
 
 function voluntary{
@@ -534,10 +827,9 @@ function voluntary{
 }
 
 function disappear{
+    say disappear werejix
     execute as @e[tag=hover] run tp @s ~ ~-200 ~
     execute as @e[tag=hover] run kill @s
-    execute as @e[tag=hover2] run tp @s ~ ~-200 ~
-    execute as @e[tag=hover2] run kill @s
     execute as @a[tag=user] run scoreboard players set @s werejix.timer 0
     execute as @a[tag=user] run scoreboard players set @s carrot.timer 0
     execute as @a[tag=user] run tag @s remove voluntary
@@ -982,12 +1274,13 @@ function exsan_sound{
 
 
     execute at @a[tag=user] as @e[distance=..20,tag=!user] if entity @a[tag=user,scores={exsan.sound=4..60}] run effect give @s wither 1 10
+    #execute at @a[tag=user] as @e[distance=..20,tag=!user] if entity @a[tag=user,scores={exsan.sound=4..60}] run scoreboard players remove @s health 1 
         # execute as @e[tag=user] at @s facing entity @a[tag=user] eyes if entity @a[tag=user,scores={exsan.sound=4}] run effect give @s instant_health 1 1
     execute as @e[tag=user] at @s facing entity @a[tag=user] eyes if entity @a[tag=user,scores={exsan.sound=4..60}] run effect give @s saturation 1 0 true
     execute as @e[tag=user] at @s facing entity @a[tag=user] eyes if entity @a[tag=user,scores={exsan.sound=4..60}] run effect give @s instant_health 1 0 true
 
     execute as @e[tag=user] at @s facing entity @a[tag=user] eyes if entity @a[tag=user,scores={exsan.sound=4..60}] store result entity @s Health float 1 run scoreboard players add @s health 1
-    execute as @e[tag=!user,type=!armor_stand,distance=..20] at @s facing entity @a[tag=user] eyes if entity @a[tag=user,scores={exsan.sound=4..60}] store result entity @s Health float 1 run scoreboard players remove @s health 1 
+    execute at @a[tag=user] as @e[tag=!user,type=!armor_stand,distance=..20] facing entity @a[tag=user] eyes if entity @a[tag=user,scores={exsan.sound=4..60}] store result entity @s Health float 1 run scoreboard players remove @s health 1 
 
     #execute as @e[tag=!user,type=!armor_stand] at @s facing entity @a[tag=user] eyes if entity @a[tag=user,scores={exsan.sound=4..60}] run summon minecraft:area_effect_cloud ~ ~ ~ {Radius:5f,Duration:6,Age:4,Effects:[{Id:20b,Amplifier:100b,Duration:1,ShowParticles:1b}]}
     #/execute as hoonman at @s run summon minecraft:area_effect_cloud ~ ~ ~ {Radius:0f,Duration:6,Age:4,Effects:[{Id:20b,Amplifier:5b,Duration:1,ShowParticles:0b}]}
