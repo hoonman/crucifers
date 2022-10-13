@@ -55,7 +55,7 @@
 ![](https://github.com/hoonman/crucifers/blob/main/misc/gifs/hemorrhage3.gif)
 
 #### visceral strike
-![](https://github.com/hoonman/crucifers/blob/main/misc/gifs/visceral_strike3.gif)
+![](https://github.com/hoonman/crucifers/blob/main/misc/gifs/new_visceral_final_please.gif)
 
 #### scrutinize
 ![](https://github.com/hoonman/crucifers/blob/main/misc/gifs/scrutinize.gif)
