@@ -15,6 +15,7 @@
 * [x] **Radiate:** Emit radioactive energy in a 7 block radius.
 * [x] **Lingering Skulls:** Temporarily stop RADIATE and release compact skulls that track the nearest enemies. Those that are hit with the skulls are propelled upwards.
 * [ ] **Horrid Infestation:** Diseased insects swarm the enemy that the user hit. Affects striked enemies with nausea, hunger, weakness, and slowness.
+* [ ] **Toxic Bomb:** Throws 3 poisonous projectiles at the direction the user is looking at. Creates a toxic aura around the area that it hit and explodes after a short period.
 * [x] **Contaminate:** Continuously release waves of toxic waste for a period of time. 
 * [x] **Putrefaction:** Roots of corrupt vines sprout from the ground to impale enemies within a certain radius. 
 - recipe: netherite axe + 8 netherite ingots
